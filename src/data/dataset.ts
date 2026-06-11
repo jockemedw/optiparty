@@ -56,7 +56,7 @@ export const dataset: Dataset = DatasetSchema.parse({
         valbefinnande: {
           score: 62,
           motivation: "Bred välfärdsagenda med generell sjukvård, skola och trygghetssystem som täcker hela befolkningen; svagare på tillväxt- och produktivitetsreformer som lyfter välståndet på sikt.",
-          sources: [{ title: "Socialdemokraternas partiprogram", url: "https://www.socialdemokraterna.se/vart-parti/om-partiet/vart-partiprogram" }],
+          sources: [{ title: "Socialdemokraternas partiprogram och riktlinjer", url: "https://www.socialdemokraterna.se/var-politik/partiprogram-och-riktlinjer" }],
         },
         lidande: {
           score: 68,
@@ -66,7 +66,7 @@ export const dataset: Dataset = DatasetSchema.parse({
         fordelning: {
           score: 72,
           motivation: "Utjämning är kärnideologi: progressiv beskattning, generell välfärd och uttalat mål om minskade klyftor; social rörlighet via avgiftsfri utbildning.",
-          sources: [{ title: "Socialdemokraternas partiprogram", url: "https://www.socialdemokraterna.se/vart-parti/om-partiet/vart-partiprogram" }],
+          sources: [{ title: "Socialdemokraternas partiprogram och riktlinjer", url: "https://www.socialdemokraterna.se/var-politik/partiprogram-och-riktlinjer" }],
         },
         insats: {
           score: 45,
@@ -76,7 +76,7 @@ export const dataset: Dataset = DatasetSchema.parse({
         frihet: {
           score: 55,
           motivation: "Stark på reella förmågor (utbildning, vård som frihetsförutsättning) i capability-mening; svagare på negativ frihet med benägenhet för reglering och paternalism.",
-          sources: [{ title: "Socialdemokraternas partiprogram", url: "https://www.socialdemokraterna.se/vart-parti/om-partiet/vart-partiprogram" }],
+          sources: [{ title: "Socialdemokraternas partiprogram och riktlinjer", url: "https://www.socialdemokraterna.se/var-politik/partiprogram-och-riktlinjer" }],
         },
         framtid: {
           score: 58,
