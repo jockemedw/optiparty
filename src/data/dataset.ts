@@ -85,9 +85,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.85,
-        motivation: "Längst regeringserfarenhet av alla partier, etablerad förvaltningstradition och stabil partiorganisation; minuspoäng för beroende av komplexa koalitionsunderlag.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 1.0,
+        motivation: "Protokollets rubrik §3.3: E 1.0 (statsråd under mandatperioden 2018–2022), P 1.00 (107/107 mandat, största parti), T 1.0 (ledde regeringen 2014–2022); raw 1.000 ger faktor 1.00 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
     {
@@ -128,9 +131,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.8,
-        motivation: "Omfattande och aktuell regeringserfarenhet, professionaliserad organisation; samordningskostnader i blockpolitiken drar ned något.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 0.94,
+        motivation: "Protokollets rubrik §3.3: E 1.0 (statsråd innevarande mandatperiod, leder regeringen sedan 2022), P 0.64 (68/107 mandat), T 1.0 (lett regering inom 12 år); raw 0.910 ger faktor 0.94 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
     {
@@ -171,9 +177,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.60,
-        motivation: "Tongivande stödparti i Tidökoalitionen 2022–2026 ger viss praktisk styrningserfarenhet; partiet har dock aldrig innehaft ministerposter och organisationen har periodvis präglats av interna spänningar kring politisk linje och tempo.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 0.64,
+        motivation: "Protokollets rubrik §3.3: E 0.3 (formaliserat regeringssamarbete utan statsråd, Tidöavtalet), P 0.68 (73/107 mandat), T 0.6 (avtalspart med dokumenterat programgenomslag via Tidöavtalet); raw 0.485 ger faktor 0.64 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
     {
@@ -214,9 +223,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.50,
-        motivation: "Stöd- men inte koalitionsparti åt S-regeringar utan formella ministerposter, vilket begränsar direkt förvaltningserfarenhet; stabil partiorganisation men vänsterprofilen och oppositionspositionen försvårar bred parlamentarisk koalitionsbildning.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 0.45,
+        motivation: "Protokollets rubrik §3.3: E 0.1 (varken statsråd eller formaliserat regeringssamarbete), P 0.22 (24/107 mandat), T 0.4 (återkommande budgetuppgörelser med S-regeringar); raw 0.220 ger faktor 0.45 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
     {
@@ -257,9 +269,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.70,
-        motivation: "Ministeransvar under Alliansregeringarna 2006–2014 ger solid regeringserfarenhet och etablerad förvaltningstradition; partiets val att lämna Alliansen inför 2022 och söka nytt parlamentariskt samarbete skapar viss osäkerhet om koalitionsförmåga.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 0.69,
+        motivation: "Protokollets rubrik §3.3: E 0.7 (statsråd t.o.m. oktober 2014, inom 12 år från bedömningsdatumet), P 0.22 (24/107 mandat), T 0.6 (avtalspart med dokumenterat programgenomslag via januariavtalet); raw 0.550 ger faktor 0.69 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
     {
@@ -300,9 +315,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.72,
-        motivation: "Ministeransvar i Alliansregeringarna 2006–2014 och i Tidökoalitionen 2022–2026 ger bred och aktuell regeringserfarenhet; stabilt parti med lojal väljarbase och väl etablerad partiorganisation stärker genomförbarhetspotentialen.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 0.81,
+        motivation: "Protokollets rubrik §3.3: E 1.0 (statsråd innevarande mandatperiod, Tidöregeringen), P 0.18 (19/107 mandat), T 0.8 (koalitionspart med statsråd); raw 0.735 ger faktor 0.81 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
     {
@@ -343,9 +361,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.65,
-        motivation: "Ministeransvar i Alliansregeringarna 2006–2014 och i Tidökoalitionen 2022–2026 ger reell styrningserfarenhet; interna stridigheter kring partilinje 2019–2021 och minskad väljarstorlek reducerar stabilitetspoängen något.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 0.81,
+        motivation: "Protokollets rubrik §3.3: E 1.0 (statsråd innevarande mandatperiod, Tidöregeringen), P 0.15 (16/107 mandat), T 0.8 (koalitionspart med statsråd); raw 0.728 ger faktor 0.81 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
     {
@@ -386,9 +407,12 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
       },
       feasibility: {
-        factor: 0.55,
-        motivation: "Koalitionspartner med S 2014–2019 med direkta ministerposter ger erfarenhet av formellt regeringsansvar; partiets utträdande ur riksdagen 2022 och begränsade väljarstorlek sänker stabilitets- och kapacitetsbedömningen.",
-        sources: [{ title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" }],
+        factor: 0.81,
+        motivation: "Protokollets rubrik §3.3: E 1.0 (statsråd t.o.m. november 2021, under mandatperioden 2018–2022), P 0.17 (18/107 mandat), T 0.8 (koalitionspart med statsråd 2014–2021); raw 0.733 ger faktor 0.81 efter koalitionsgolvet.",
+        sources: [
+          { title: "Valresultat 2022 (Valmyndigheten)", url: "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022" },
+          { title: "Regeringar i Sverige (Riksdagen)", url: "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/" },
+        ],
       },
     },
   ],

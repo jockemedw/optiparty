@@ -1,7 +1,9 @@
 # Bedömningsprotokoll för Optiparty
 
 **Datum:** 2026-06-11
-**Status:** Utkast — för projektägarens metodgranskning
+**Status:** Godkänd av projektägaren 2026-06-11. Vid godkännandegranskningen
+rättades två E-klassningar i §3.3 (MP, C) som avvek från E-tabellen — se
+`CHANGELOG-bedomningar.md`.
 **Kompletterar:** `2026-06-11-vardedimensioner-harledning.md` (de låsta dimensionerna)
 
 ## 0. Grundregel: inga handjusterade värden
@@ -104,11 +106,16 @@ skulle göra viktreglagen kosmetiska).
 | S | 1.0 | 1.00 | 1.0 (ledde regering 2014–2022) | 1.000 | **1.00** |
 | M | 1.0 | 0.64 | 1.0 (leder regering) | 0.910 | **0.94** |
 | KD | 1.0 | 0.18 | 0.8 (koalitionspart) | 0.735 | **0.81** |
+| MP | 1.0 | 0.17 | 0.8 (koalitionspart 2014–2021) | 0.733 | **0.81** |
 | L | 1.0 | 0.15 | 0.8 (koalitionspart) | 0.728 | **0.81** |
-| MP | 0.7 | 0.17 | 0.8 (koalitionspart 2014–2019) | 0.598 | **0.72** |
+| C | 0.7 | 0.22 | 0.6 (januariavtalet) | 0.550 | **0.69** |
 | SD | 0.3 | 0.68 | 0.6 (Tidöavtalet) | 0.485 | **0.64** |
-| C | 0.5 | 0.22 | 0.6 (januariavtalet) | 0.460 | **0.62** |
 | V | 0.1 | 0.22 | 0.4 (budgetuppgörelser) | 0.220 | **0.45** |
+
+*E-noter:* MP hade statsråd t.o.m. november 2021, dvs. under mandatperioden
+2018–2022 → nivå 1.0 (rättat från 0.7). C:s sista statsråd avgick 3 oktober
+2014, inom 12 år från bedömningsdatumet 2026-06-11 → nivå 0.7 (rättat från
+0.5).
 
 Dessa ersätter de tidigare kurerade faktorerna (som var bedömningar utan
 rubrik och därmed bröt mot grundregeln). Varje partis E/P/T-klassning
@@ -116,8 +123,10 @@ dokumenteras med källa i datasetet.
 
 ### 3.4 Konsekvens för default-domen (likaviktat, g = 1)
 
-Ranking med rubrikens faktorer: S 60.0 · M 54.2 · L 47.4 · KD 45.8 · MP 42.2 ·
-C 37.6 · SD 29.3 · V 27.2. (Domen ändras inte i toppen; mittfältet omsorteras.)
+Ranking med rubrikens faktorer (tabellens avrundade faktorer, som datasetet
+lagrar): S 60.0 · M 54.4 · MP 47.5 · L 47.4 · KD 45.8 · C 41.7 · SD 29.3 ·
+V 26.9. (Domen ändras inte i toppen; mittfältet omsorteras och MP passerar
+L/KD.)
 
 ## 4. Ändringslogg-krav
 
