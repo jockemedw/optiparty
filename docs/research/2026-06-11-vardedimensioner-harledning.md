@@ -1,7 +1,10 @@
 # Fas 0: Härledning av värdedimensionerna
 
 **Datum:** 2026-06-11
-**Status:** Utkast 1 — för granskning och iteration
+**Status:** Godkänd av projektägaren 2026-06-11. Beslut enligt rekommendation:
+sex dimensioner låsta (§5), ingen tillitsdimension i v1 (utelämnandet redovisas
+på metodiksidan), defaultvikter likaviktade 1/6 ("indifferensprior").
+Displaynamnet för Total välfärd avgörs vid bygget (§6.2).
 **Mål:** En dimensionsuppsättning där varje steg i resonemanget är spårbart
 till etablerad teori och forskning, och som upplevs helt rätt och rimlig.
 

@@ -21,36 +21,37 @@ låsa upp en viktningspanel och se hur domen förändras med egna värderingar.
 
 ## Modellen
 
-### Fas 0: Vetenskaplig härledning av värdedimensionerna
+### Fas 0: Vetenskaplig härledning av värdedimensionerna — KLAR
 
-**Dimensionerna är INTE låsta.** Innan datasetet byggs genomförs en
-forskningsgenomgång av etablerade ramverk — etisk teori (utilitarism, negativ
-utilitarism, Rawls, Sens/Nussbaums capability approach), välbefinnandeforskning
-(WELLBY, OECD Better Life Index, subjective wellbeing-litteraturen) och
-närliggande fält. Resultatet är ett härledningsdokument där varje föreslagen
-dimension motiveras med spårbara resonemang och källhänvisningar. Kravet är
-att härledningen ska upplevas som helt rätt och rimlig — varje steg ska gå att
-följa och försvara. Dokumentet granskas och itereras med projektägaren tills
-det godkänns; först då låses dimensionsuppsättningen.
+Genomförd och godkänd 2026-06-11. Fullständig härledning med krav (K1–K6),
+ramverksgenomgång, gränsdragningar, redovisade utelämnanden och källor finns i
+`docs/research/2026-06-11-vardedimensioner-harledning.md`. Metaramen är
+moralisk osäkerhet (MacAskill/Bykvist/Ord 2020): dimensionerna är en viktad
+portfölj av seriöst försvarade etiska positioner, vilket också är det
+metodologiska försvaret för besökarens viktreglage.
 
-Arkitekturkonsekvens: dimensionerna definieras som **data** (i samma typade
+Arkitekturkrav kvarstår: dimensionerna definieras som **data** (i samma typade
 dataset som partipoängen), aldrig hårdkodade i komponenter. Antal dimensioner,
 namn, beskrivningar och förankring ska kunna ändras utan kodändringar utöver
 datafilen.
 
-### Värdedimensioner (viktbara) — PRELIMINÄRT ARBETSEXEMPEL
-
-Tabellen nedan är ett arbetsexempel som illustrerar formen (dimension +
-teoriförankring + vad den mäter). Den ersätts av resultatet från Fas 0.
+### Värdedimensioner (viktbara) — LÅSTA
 
 | Dimension | Förankring | Mäter |
 |---|---|---|
-| Lidandeminimering | Negativ utilitarism | Politikens effekt på de sämst ställda: fattigdom, psykisk ohälsa, vårdköer, brottsoffer |
-| Total välfärd | Klassisk utilitarism | Aggregerad välfärd/välstånd för flest människor |
-| Fördelningsrättvisa | Rawls (maximin) | Jämlikhet, hur samhällets svagaste prioriteras |
-| Insatsrättvisa | Meritokrati/reciprocitet | Att bidrag till samhället lönar sig |
-| Framtidsansvar | Hållbarhet/långsiktighet | Klimat, statsfinanser, kommande generationer |
-| Frihet & autonomi | Liberal tradition | Individens självbestämmande, rättsstat |
+| Total välfärd* | Klassisk utilitarism, SWB/WELLBY-forskning | Aggregerat välbefinnande/välstånd för flest människor |
+| Lidandeminimering | Negativ utilitarism, prioritarianism (Popper, Parfit) | Absolut nivå hos de sämst ställda: fattigdom, psykisk ohälsa, vårdköer, brottsoffer |
+| Fördelningsrättvisa | Rawls (maximin) | Relativa gap, jämlikhet, social rörlighet |
+| Insatsrättvisa | Förtjänstteori, reciprocitet (Miller; Starmans m.fl. 2017) | Att bidrag till samhället lönar sig |
+| Frihet & autonomi | Mill/Berlin + Sen/Nussbaums capability approach | Individens självbestämmande, rättsstat, reella förmågor |
+| Framtidsansvar | Parfit, Brundtland, hållbarhet | Effekter bortom en generation: klimat, statsfinanser |
+
+\* Displaynamn avgörs vid bygget ("Total välfärd" kan misläsas som
+"välfärdsstat"; alternativ i härledningsdokumentet §6.2).
+
+Beslut från Fas 0: ingen tillitsdimension i v1 (utelämnandet redovisas öppet
+på metodiksidan); defaultvikter likaviktade 1/6, redovisade som
+"indifferensprior".
 
 ### Genomförbarhet (multiplikator, ej viktbar dimension)
 
