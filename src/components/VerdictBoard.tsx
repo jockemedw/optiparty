@@ -21,8 +21,12 @@ export default function VerdictBoard() {
   async function share() {
     const url = `${window.location.origin}${window.location.pathname}?${stateToQuery(state, dimensionIds)}`;
     window.history.replaceState(null, "", url);
-    await navigator.clipboard.writeText(url);
-    setShareLabel("Kopierad!");
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareLabel("Kopierad!");
+    } catch {
+      setShareLabel("Länken ligger i adressfältet");
+    }
     setTimeout(() => setShareLabel("Kopiera länk till dina vikter"), 2000);
   }
 
@@ -41,6 +45,7 @@ export default function VerdictBoard() {
 
       {!unlocked && (
         <button
+          type="button"
           onClick={() => setUnlocked(true)}
           className="mt-10 rounded-full border border-zinc-600 px-6 py-3 text-sm hover:bg-zinc-800"
         >

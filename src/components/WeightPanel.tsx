@@ -51,10 +51,10 @@ export default function WeightPanel({ dimensions, state, onChange, onReset, onSh
         </label>
       </div>
       <div className="mt-6 flex gap-3">
-        <button onClick={onReset} className="rounded border border-zinc-600 px-3 py-1 text-sm hover:bg-zinc-800">
+        <button type="button" onClick={onReset} className="rounded border border-zinc-600 px-3 py-1 text-sm hover:bg-zinc-800">
           Återställ
         </button>
-        <button onClick={onShare} className="rounded border border-zinc-600 px-3 py-1 text-sm hover:bg-zinc-800">
+        <button type="button" onClick={onShare} className="rounded border border-zinc-600 px-3 py-1 text-sm hover:bg-zinc-800">
           {shareLabel}
         </button>
       </div>
