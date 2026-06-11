@@ -69,3 +69,17 @@ describe("DatasetSchema", () => {
     expect(() => DatasetSchema.parse(bad)).toThrow();
   });
 });
+
+describe("riktiga datasetet", () => {
+  it("validerar mot schemat", async () => {
+    const { dataset } = await import("@/data/dataset");
+    expect(() => DatasetSchema.parse(dataset)).not.toThrow();
+  });
+
+  it("har exakt sex dimensioner enligt låst härledning", async () => {
+    const { dataset } = await import("@/data/dataset");
+    expect(dataset.dimensions.map((d) => d.id)).toEqual([
+      "valbefinnande", "lidande", "fordelning", "insats", "frihet", "framtid",
+    ]);
+  });
+});
