@@ -75,7 +75,7 @@ export default function Metodik() {
                     <dd className="mt-1 text-sm text-zinc-300">{entry.motivation}</dd>
                     <dd className="mt-1 text-xs">
                       {entry.sources.map((s) => (
-                        <a key={s.url} href={s.url} className="mr-3 text-zinc-500 underline hover:text-zinc-300">
+                        <a key={s.url} href={s.url} className="mr-3 text-zinc-500 underline hover:text-zinc-300" target="_blank" rel="noopener noreferrer">
                           {s.title}
                         </a>
                       ))}
@@ -91,7 +91,7 @@ export default function Metodik() {
                 <dd className="mt-1 text-sm text-zinc-300">{p.feasibility.motivation}</dd>
                 <dd className="mt-1 text-xs">
                   {p.feasibility.sources.map((s) => (
-                    <a key={s.url} href={s.url} className="mr-3 text-zinc-500 underline hover:text-zinc-300">
+                    <a key={s.url} href={s.url} className="mr-3 text-zinc-500 underline hover:text-zinc-300" target="_blank" rel="noopener noreferrer">
                       {s.title}
                     </a>
                   ))}
