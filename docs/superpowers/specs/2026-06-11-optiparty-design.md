@@ -21,11 +21,27 @@ låsa upp en viktningspanel och se hur domen förändras med egna värderingar.
 
 ## Modellen
 
-### Värdedimensioner (viktbara)
+### Fas 0: Vetenskaplig härledning av värdedimensionerna
 
-Sex dimensioner, var och en förankrad i en etablerad etisk/vetenskaplig
-tradition. Dimensionerna är teoriförankrade; poängen är kurerade bedömningar
-med obligatoriska källor.
+**Dimensionerna är INTE låsta.** Innan datasetet byggs genomförs en
+forskningsgenomgång av etablerade ramverk — etisk teori (utilitarism, negativ
+utilitarism, Rawls, Sens/Nussbaums capability approach), välbefinnandeforskning
+(WELLBY, OECD Better Life Index, subjective wellbeing-litteraturen) och
+närliggande fält. Resultatet är ett härledningsdokument där varje föreslagen
+dimension motiveras med spårbara resonemang och källhänvisningar. Kravet är
+att härledningen ska upplevas som helt rätt och rimlig — varje steg ska gå att
+följa och försvara. Dokumentet granskas och itereras med projektägaren tills
+det godkänns; först då låses dimensionsuppsättningen.
+
+Arkitekturkonsekvens: dimensionerna definieras som **data** (i samma typade
+dataset som partipoängen), aldrig hårdkodade i komponenter. Antal dimensioner,
+namn, beskrivningar och förankring ska kunna ändras utan kodändringar utöver
+datafilen.
+
+### Värdedimensioner (viktbara) — PRELIMINÄRT ARBETSEXEMPEL
+
+Tabellen nedan är ett arbetsexempel som illustrerar formen (dimension +
+teoriförankring + vad den mäter). Den ersätts av resultatet från Fas 0.
 
 | Dimension | Förankring | Mäter |
 |---|---|---|
@@ -50,7 +66,8 @@ med obligatoriska källor.
 ### Beräkning
 
 - Vikterna normaliseras så att de summerar till 1.
-- `politikpoäng = Σ (vikt_d × poäng_d)` över de sex dimensionerna.
+- `politikpoäng = Σ (vikt_d × poäng_d)` över samtliga dimensioner (antalet
+  bestäms i Fas 0).
 - `slutpoäng = politikpoäng × (1 − g + g × genomförbarhetsfaktor)` där `g` är
   genomslagsreglaget (0–1) och genomförbarhetsfaktorn ligger i [0, 1].
 - Ranking sorteras på slutpoäng. All beräkning sker i klienten.
@@ -71,7 +88,7 @@ med obligatoriska källor.
 
 1. **Förstasidan** — domen i jätteformat, vinnarens poäng, fullständig ranking,
    låset som låser upp viktningspanelen.
-2. **Upplåst läge** — reglagepanel (6 dimensioner + genomförbarhetsgenomslag),
+2. **Upplåst läge** — reglagepanel (en per dimension + genomförbarhetsgenomslag),
    ranking som animerat räknas om, delbar länk med vikterna i URL:ens
    query-parametrar.
 3. **Metodik-sidan** — varje dimension förklarad med filosofisk grund, varje
