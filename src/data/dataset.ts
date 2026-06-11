@@ -1,4 +1,4 @@
-import { DatasetSchema, type Dataset } from "@/lib/model/types";
+﻿import { DatasetSchema, type Dataset } from "@/lib/model/types";
 
 export const dataset: Dataset = DatasetSchema.parse({
   assessmentDate: "2026-06-11",
@@ -252,7 +252,7 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
         framtid: {
           score: 62,
-          motivation: "Historiskt stark miljöprofil och nuvarande satsning på att fördubbla fossilfri energiproduktion är positiva; tillväxtfokus och dereguleringsambitoner skapar ibland spänning mot snabb klimatomställning och tydliga intergenerationella åtaganden.",
+          motivation: "Historiskt stark miljöprofil och nuvarande satsning på att fördubbla fossilfri energiproduktion är positiva; tillväxtfokus och deregleringsambitioner skapar ibland spänning mot snabb klimatomställning och tydliga intergenerationella åtaganden.",
           sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
         },
       },
