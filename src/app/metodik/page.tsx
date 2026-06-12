@@ -106,7 +106,7 @@ export default function Metodik() {
         dimension — delkomponenter byggda på valkompassfrågor med validerbara partipositioner,
         poäng per fråga som viktas till dimensionstotal — är specificerad som protokollutkast
         v1.1 och införs dimension för dimension efter godkännande; migrerade dimensioner
-        redovisar sina delkomponenter under §7 och i beräkningen på förstasidan.
+        redovisar sin frågebank under §6 och delkomponenterna per parti under §7 samt i beräkningen på förstasidan.
       </p>
       <RubricTable caption="Skalankare för dimensionspoäng" rows={scaleAnchors} />
 
@@ -158,22 +158,69 @@ export default function Metodik() {
       </div>
 
       <SectionHeading no="6">Dimensionerna</SectionHeading>
-      <div className="mt-6 grid gap-px border border-rule bg-rule sm:grid-cols-2">
-        {dataset.dimensions.map((d, i) => (
-          <article key={d.id} className="bg-card p-5">
-            <p className="font-mono text-[10px] tracking-[0.25em] text-stamp uppercase">
-              Dimension {String(i + 1).padStart(2, "0")}
-            </p>
-            <h3 className="mt-2 text-lg font-bold tracking-tight">{d.name}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">{d.shortDescription}</p>
-            <p className="mt-3 text-xs leading-relaxed text-ink-faint">
-              <b className="text-ink-soft">Förankring:</b> {d.grounding}
-            </p>
-            <p className="mt-1.5 text-xs leading-relaxed text-ink-faint">
-              <b className="text-ink-soft">Mäter:</b> {d.measures}
-            </p>
-          </article>
-        ))}
+      <p className="mt-4 leading-relaxed text-ink-soft">
+        Varje dimension redovisas med definition, gränsdragning mot grannliggande dimensioner,
+        ingående frågebank med vikter samt vad som uttryckligen uteslutits och varför. Frågebanken
+        nedan är samma data som beräknar poängen — den kan inte avvika från beräkningen.
+      </p>
+      <div className="mt-6 space-y-6">
+        {dataset.dimensions.map((d, i) => {
+          const totalWeight = d.questionBank?.reduce((sum, q) => sum + q.weight, 0) ?? 0;
+          return (
+            <article key={d.id} className="border border-rule bg-card p-5">
+              <p className="font-mono text-[10px] tracking-[0.25em] text-stamp uppercase">
+                Dimension {String(i + 1).padStart(2, "0")} ·{" "}
+                {d.questionBank ? "Beräknad enligt protokoll v1.1" : "Kurerad v1 — migrering återstår"}
+              </p>
+              <h3 className="mt-2 text-lg font-bold tracking-tight">{d.name}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">{d.shortDescription}</p>
+              <p className="mt-3 text-xs leading-relaxed text-ink-faint">
+                <b className="text-ink-soft">Förankring:</b> {d.grounding}
+              </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-ink-faint">
+                <b className="text-ink-soft">Mäter:</b> {d.measures}
+              </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-ink-faint">
+                <b className="text-ink-soft">Gränsdragning:</b> {d.boundary}
+              </p>
+              {d.questionBank && (
+                <table className="mt-4 w-full border-collapse text-sm">
+                  <caption className="sr-only">Frågebank för {d.name}</caption>
+                  <thead>
+                    <tr className="border-b border-rule text-left text-[10px] tracking-[0.15em] text-ink-faint uppercase">
+                      <th className="py-1.5 pr-3 font-normal">Fråga</th>
+                      <th className="py-1.5 pr-3 font-normal">Polaritet</th>
+                      <th className="py-1.5 text-right font-normal">Vikt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {d.questionBank.map((q) => (
+                      <tr key={q.id} className="border-b border-rule/60 align-top">
+                        <td className="py-2 pr-3 text-ink-soft">{q.question}</td>
+                        <td className="py-2 pr-3 text-xs text-ink-faint">{q.polarity}</td>
+                        <td className="py-2 text-right font-mono text-xs tabular-nums">
+                          {fmt((q.weight / totalWeight) * 100)} %
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+              {d.exclusions.length > 0 && (
+                <div className="mt-4">
+                  <p className="font-mono text-[10px] tracking-[0.25em] text-ink-faint uppercase">Uteslutet ur dimensionen</p>
+                  <ul className="mt-1.5 space-y-1.5">
+                    {d.exclusions.map((e) => (
+                      <li key={e.topic} className="text-xs leading-relaxed text-ink-faint">
+                        <b className="text-ink-soft">{e.topic}:</b> {e.reason}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </article>
+          );
+        })}
       </div>
 
       <SectionHeading no="7">Alla poäng, motiveringar och källor</SectionHeading>
@@ -211,19 +258,21 @@ export default function Metodik() {
                         </a>
                       ))}
                     </dd>
-                    {entry.components && (
+                    {entry.components && d.questionBank && (
                       <dd className="mt-3 border-t border-rule pt-3">
                         <p className="font-mono text-[10px] tracking-[0.25em] text-ink-faint uppercase">
                           Delkomponenter · poäng = Σ(vikt × frågepoäng)
                         </p>
                         <ul className="mt-2 space-y-2">
-                          {entry.components.map((c) => {
-                            const total = entry.components!.reduce((sum, x) => sum + x.weight, 0);
+                          {d.questionBank.map((q) => {
+                            const c = entry.components!.find((x) => x.componentId === q.id);
+                            if (!c) return null;
+                            const total = d.questionBank!.reduce((sum, x) => sum + x.weight, 0);
                             return (
-                              <li key={c.id} className="text-sm">
-                                <span className="leading-snug">{c.question}</span>
+                              <li key={q.id} className="text-sm">
+                                <span className="leading-snug">{q.question}</span>
                                 <span className="ml-2 font-mono text-[11px] text-ink-faint tabular-nums">
-                                  {c.origin} · vikt {fmt((c.weight / total) * 100)} % × {c.score}
+                                  {q.origin} · vikt {fmt((q.weight / total) * 100)} % × {c.score}
                                 </span>
                                 <p className="mt-0.5 text-sm leading-relaxed text-ink-soft">{c.position}</p>
                                 <p className="font-mono text-[11px]">
