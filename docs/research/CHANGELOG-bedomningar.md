@@ -5,6 +5,40 @@ varje ändring av en poäng eller faktor efter protokollets godkännande loggas
 här med datum, vad som ändrades, vilken regel i §0 som åberopas (a:
 protokolländring, b: ändrat källäge) och källa.
 
+## 2026-06-13
+
+- **Dimensionen Fördelningsrättvisa migrerad till beräknade poäng** (regel a:
+  protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
+  med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor
+  och §D-flagga dokumenteras i `2026-06-13-fordelning-fragebank.md`. Frågorna:
+  kapitalinkomstskatt, skatt på höga arbetsinkomster, återinförd
+  förmögenhets-/arvsskatt, kommunal skatteutjämning och marknadshyror. De
+  kurerade poängen ersätts:
+
+  | Parti | Tidigare (kurerad) | Ny (beräknad) |
+  |---|---|---|
+  | S | 72 | 75 |
+  | M | 45 | 20 |
+  | SD | 42 | 50 |
+  | V | 78 | 100 |
+  | C | 50 | 35 |
+  | KD | 48 | 20 |
+  | L | 46 | 35 |
+  | MP | 62 | 90 |
+
+  Källor: SVT:s valkompass 2022 (riksdag) för tre frågor med partiernas egna
+  svar (höginkomstskatt, kommunal skatteutjämning, marknadshyror, samtliga
+  fetch-verifierade 2026-06-13) samt riksdagens betänkande 2023/24:SkU12
+  (Företag, kapital och fastighet) inklusive reservationerna för
+  kapital- och förmögenhets-/arvsskatt; Socialdemokraternas och
+  Vänsterpartiets skattesidor kompletterar kapitalinkomstskatten. En §D-flagga:
+  S saknar validerbar position om återinförd förmögenhets-/arvsskatt
+  (neutral prior 50). Per-frågekällor anges per delkomponent i
+  `src/data/dataset.ts`. Som vid Framtidsansvar faller de marknadsliberala
+  partierna och stiger de utjämningsinriktade när måttet byts från kurerad
+  bedömning till källverifierade ställningstaganden — en konsekvens av metoden,
+  ingen handjustering.
+
 ## 2026-06-12
 
 - **Protokoll v1.1 godkänt av projektägaren** (delkomponenter per dimension:

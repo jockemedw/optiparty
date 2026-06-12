@@ -1,7 +1,7 @@
 ﻿import { DatasetSchema, type Dataset } from "@/lib/model/types";
 
 export const dataset: Dataset = DatasetSchema.parse({
-  assessmentDate: "2026-06-12",
+  assessmentDate: "2026-06-13",
   dimensions: [
     {
       id: "valbefinnande",
@@ -28,7 +28,23 @@ export const dataset: Dataset = DatasetSchema.parse({
       grounding: "Rawls rättviseteori (1971): differensprincipen och lika grundläggande friheter; empiriskt stödd ojämlikhetsforskning (Wilkinson & Pickett 2009).",
       measures: "Relativa gap, jämlika livschanser, social rörlighet.",
       boundary: "Relativa gap och lika livschanser. Gräns mot Lidandeminimering: fördelning är relativ, lidande absolut — ett samhälle kan ha litet lidande men stora gap, och tvärtom. Gräns mot Insatsrättvisa: fördelning frågar om gapen är små och chanserna lika; insats frågar om utfallen speglar insatsen.",
-      exclusions: [],
+      exclusions: [
+        {
+          topic: "Vinstutdelning i friskolor",
+          reason: "K2: frågan mäter främst driftsform och valfrihet (Frihet & autonomi) snarare än fördelning, och fördelningspolariteten är omtvistad — ett vinstförbud kan både minska segregationsdrivande urval och minska utbudet av skolplatser.",
+        },
+        {
+          topic: "Ränteavdraget",
+          reason: "K2: polariteten mot fördelningsmålet är inte entydig — en nedtrappning träffar skuldsatta förstagångsköpare med små förmögenheter lika hårt som förmögna, medan kontantköpare inte berörs alls. Både nedtrappning och bibehållen nivå kan hävdas främja jämlikhet.",
+        },
+      ],
+      questionBank: [
+        { id: "kapitalinkomstskatt", question: "Skatten på stora kapitalinkomster ska höjas.", polarity: "Höjd kapitalskatt främjar målet", origin: "F1 · frågebanken för Fördelningsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "hoga-inkomster-skatt", question: "Skatten på höga arbetsinkomster ska höjas.", polarity: "Höjd skatt på höga inkomster främjar målet", origin: "F2 · frågebanken för Fördelningsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "formogenhet-arvsskatt", question: "Skatt på stora förmögenheter och arv ska återinföras.", polarity: "Återinförande främjar målet", origin: "F3 · frågebanken för Fördelningsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "kommunal-skatteutjamning", question: "Mer skatteinkomster ska omfördelas från rika till fattiga kommuner.", polarity: "Mer omfördelning främjar målet", origin: "F4 · frågebanken för Fördelningsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "marknadshyror", question: "Hyror ska sättas efter bruksvärde i stället för på en fri marknad (inga marknadshyror).", polarity: "Nej till marknadshyror främjar målet", origin: "F5 · frågebanken för Fördelningsrättvisa (protokoll v1.1)", weight: 1 },
+      ],
     },
     {
       id: "insats",
@@ -92,9 +108,41 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Socialdemokraternas politik A–Ö", url: "https://www.socialdemokraterna.se/var-politik" }],
         },
         fordelning: {
-          score: 72,
-          motivation: "Utjämning är kärnideologi: progressiv beskattning, generell välfärd och uttalat mål om minskade klyftor; social rörlighet via avgiftsfri utbildning.",
-          sources: [{ title: "Socialdemokraternas partiprogram och riktlinjer", url: "https://www.socialdemokraterna.se/var-politik/partiprogram-och-riktlinjer" }],
+          score: 75,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill höja skatten på stora kapitalinkomster och på höga arbetsinkomster, motsätter sig marknadshyror och vill reformera den kommunala skatteutjämningen; saknar dock validerbar position om återinförd förmögenhets- och arvsskatt (§D).",
+          sources: [{ title: "Socialdemokraterna: Skatter", url: "https://www.socialdemokraterna.se/var-politik/a-till-o/skatter" }],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "'Vi vill höja beskattningen av stora, lågt beskattade, kapitalinkomster' och inför en tredje beskattningsnivå för dem med störst kapitalinnehav — höjer kapitalskatten.",
+              score: 75,
+              sources: [{ title: "Socialdemokraterna: Skatter", url: "https://www.socialdemokraterna.se/var-politik/a-till-o/skatter" }],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill höja skatten något för höginkomsttagare: 'Skatt ska betalas efter bärkraft' och skattesystemets syfte är att finansiera välfärden.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Position saknas: skattesidan behandlar kapitalinkomstskatt men anger ingen position om återinförd förmögenhets- eller arvsskatt (eftersökt 2026-06-13). Neutral prior enligt protokollets §D.",
+              score: 50,
+              sources: [{ title: "Socialdemokraterna: Skatter (eftersökt)", url: "https://www.socialdemokraterna.se/var-politik/a-till-o/skatter" }],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Instämmer delvis: 'Vi vill göra om utjämningssystemet i grunden' och omfördela efter demografi och socioekonomiska förutsättningar.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Motsätter sig marknadshyror starkt: 'Marknadshyror leder till en ökad omfördelning från hyresgäster till fastighetsägare, med en sämre vardagsekonomi för väldigt många människor som följd.'",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 45,
@@ -173,9 +221,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Moderaternas politik", url: "https://moderaterna.se/var-politik/" }],
         },
         fordelning: {
-          score: 45,
-          motivation: "Lika chanser betonas via skola och arbetslinje snarare än utjämnade utfall; skattesänkningar gynnar i första hand arbetande medel- och höginkomsttagare.",
-          sources: [{ title: "Moderaternas idéprogram", url: "https://moderaterna.se/var-politik/" }],
+          score: 20,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill sänka skatten på höga arbetsinkomster, avslår höjda kapital- och förmögenhetsskatter, motsätter sig utvidgad kommunal skatteutjämning och förespråkar friare hyressättning — genomgående motverkar de fördelningsutjämnande instrumenten.",
+          sources: [
+            { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+            { title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" },
+          ],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "Tillhör utskottsmajoriteten som i SkU12 avslog förslagen om höjd kapitalbeskattning; partiets linje är lägre skatt på arbete och oförändrad eller lägre kapitalskatt — motverkar delvis en höjning.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill sänka skatten på höga inkomster: 'Det ska löna sig att utbilda sig och göra karriär i Sverige. Ansträngning måste löna sig bättre' — motverkar aktivt en höjning.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Avslår återinförd förmögenhets- och arvsskatt (SkU12, avslag på reservationerna 8 och 16); partiet avskaffade dessa skatter och vill behålla dem avskaffade — motverkar delvis.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Oense: 'En utvidgning av utjämningen skulle förvärra problemet' eftersom omfattande utjämning redan sker — motverkar delvis mer omfördelning.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Vill ändra systemet mot 'mer rättvisa hyror' där hyresgästernas värderingar väger tyngre, dvs. friare hyressättning — motverkar delvis bruksvärdesprincipen.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 72,
@@ -251,9 +334,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Sverigedemokraternas politik – Vad vi vill", url: "https://www.sd.se/vad-vi-vill/" }],
         },
         fordelning: {
-          score: 42,
-          motivation: "Partiets fördelningsagenda är primärt nationellt avgränsad – välfärden ska kanaliseras till etablerade medborgare snarare än utjämna ekonomiska klyftor; progressiv beskattning och strukturell ojämlikhet är inte centrala politiska frågor.",
-          sources: [{ title: "Sverigedemokraternas politik – Vad vi vill", url: "https://www.sd.se/vad-vi-vill/" }],
+          score: 50,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill behålla dagens kapital- och inkomstskattenivåer oförändrade, avslår återinförd förmögenhets-/arvsskatt och motsätter sig utvidgad skatteutjämning mellan kommuner; samtidigt ett starkt motstånd mot marknadshyror med uttalat fokus på att alla ska ha råd att bo.",
+          sources: [
+            { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+            { title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" },
+          ],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "Vill behålla dagens schabloniserade ISK- och kapitalskattesystem oförändrat; varken höjer eller sänker kapitalskatten i sak — neutral/status quo.",
+              score: 50,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill behålla skatten på höga inkomster oförändrad: 'Det finns därför inget utrymme för skattehöjningar' — varken höjning eller sänkning.",
+              score: 50,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Tillhör blocket som i SkU12 avslog återinförd förmögenhets- och arvsskatt och vill behålla dagens system utan dessa skatter — motverkar delvis.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Oense delvis: 'Utgångspunkten bör inte vara att välskötta kommuner ska bära kostnaderna för misskötta kommuner' — motverkar delvis mer omfördelning.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Motsätter sig marknadshyror starkt; menar att hyror ska vara rättvisa och på nivåer där alla har råd att bo — främjar lika tillgång starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 58,
@@ -335,9 +453,47 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Vänsterpartiets politik", url: "https://www.vansterpartiet.se/var-politik/" }],
         },
         fordelning: {
-          score: 78,
-          motivation: "Utjämning av ekonomiska klyftor via progressiv beskattning, förmögenhetsskatt och universella välfärdstjänster är partiets viktigaste politiska mål; social rörlighet och lika livschanser är centrala teman i partiprogrammet.",
-          sources: [{ title: "Vänsterpartiets politik", url: "https://www.vansterpartiet.se/var-politik/" }],
+          score: 100,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill skärpa kapitalbeskattningen, höja skatten på höga inkomster, återinföra arvs- och förmögenhetsskatt samt statlig fastighetsskatt på dyra fastigheter, utjämna mellan kommuner och stoppa marknadshyror — främjar fördelningsmålet starkt och konkret i varje fråga.",
+          sources: [
+            { title: "Vänsterpartiet: Skattepolitik", url: "https://www.vansterpartiet.se/var-politik/politik-a-o/skattepolitik/" },
+            { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+          ],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "Vill flytta skatteuttaget från arbete till kapital och förmögenhet med 'skärpt beskattning av kapital'; höjer kapitalskatten kraftigt — främjar starkt.",
+              score: 100,
+              sources: [
+                { title: "Vänsterpartiet: Skattepolitik", url: "https://www.vansterpartiet.se/var-politik/politik-a-o/skattepolitik/" },
+                { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+              ],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill höja skatten kraftigt på höga inkomster: 'Efter flera decennier av skattesänkningar behöver skattepolitiken ändras' — främjar starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Reservation 8 (återinförd arvs- och gåvoskatt: 'arv är också ett tydligt exempel på hur kapital påverkar en individs livschanser') och reservation 16 (statlig fastighetsskatt på dyra fastigheter) i SkU12 — främjar starkt och konkret.",
+              score: 100,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Instämmer: 'Boende i Dorotea eller Årjäng ska inte behöva betala mycket mer i kommunalskatt än rika kommuner' — främjar omfördelning starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Motsätter sig marknadshyror starkt: 'Marknadshyror leder enbart till höjda hyror. Det skulle bli en ännu mer ojämlik bostadsmarknad än den vi har idag' — främjar starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 30,
@@ -413,9 +569,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
         },
         fordelning: {
-          score: 50,
-          motivation: "C förespråkar lika möjligheter via utbildning och geografisk jämlikhet snarare än utjämning av ekonomiska utfall; marknadsliberal grundhållning utan starkt progressivt skattefokus begränsar den faktiska omfördelningseffekten.",
-          sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
+          score: 35,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: marknadsliberal skattelinje som vill sänka skatter och avslår höjda kapital- och förmögenhetsskatter, plus stöd för friare hyressättning; undantaget är skatteutjämningen, som C vill reformera för att bli mer rättvis.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" },
+            { title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" },
+          ],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "Marknadsliberal skattelinje; tillhör de partier som i SkU12 avslog höjd kapitalbeskattning och vill sänka skatter snarare än höja kapitalskatten — motverkar delvis.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill sänka skatten något på höga inkomster: 'Vi vill sänka skatterna för alla, men mest för låg- och medelinkomsttagare' — motverkar delvis en höjning.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Tillhör blocket som i SkU12 avslog återinförd förmögenhets- och arvsskatt; partiets liberala grundhållning motsätter sig sådana skatter — motverkar delvis.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Instämmer delvis: 'Skatteutjämningssystemet behöver reformeras och förbättras för att bli mer rättvist' — främjar omfördelning.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Stöder friare hyressättning i nyproduktion för att öka rörligheten på bostadsmarknaden ('ganska bra förslag') — motverkar delvis bruksvärdesprincipen.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 68,
@@ -494,9 +685,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Kristdemokraternas politik", url: "https://www.kristdemokraterna.se/var-politik/" }],
         },
         fordelning: {
-          score: 48,
-          motivation: "Familjepolitiska stöd och lika tillgång till omsorg ger viss utjämningseffekt; KD är inte primärt omfördelningsinriktat utan betonar valfrihet, familjens eget ansvar och meritbaserade chanser framför statlig inkomstutjämning.",
-          sources: [{ title: "Kristdemokraternas politik", url: "https://www.kristdemokraterna.se/var-politik/" }],
+          score: 20,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill sänka skatten på höga inkomster, avslår höjda kapital- och förmögenhetsskatter och motsätter sig utvidgad skatteutjämning, samt är det parti som starkast förordar marknadshyror i nyproduktion — motverkar de fördelningsutjämnande instrumenten genomgående.",
+          sources: [
+            { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+            { title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" },
+          ],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "Tillhör utskottsmajoriteten som i SkU12 avslog höjd kapitalbeskattning; partiets linje är lägre skatt på arbete och oförändrad kapitalskatt — motverkar delvis en höjning.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill sänka skatten något på höga inkomster: en hög skatt 'minskar incitamentet att utbilda sig och jobba hårt' — motverkar delvis en höjning.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Tillhör blocket som i SkU12 avslog återinförd förmögenhets- och arvsskatt och vill behålla dagens system utan dessa skatter — motverkar delvis.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Oense delvis: 'Dagens utjämningssystem bör ses över' men med fokus på en regional modell och ökat statligt ansvar snarare än mer omfördelning mellan kommuner — motverkar delvis.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Förordar marknadshyror i nyproduktion ('mycket bra förslag') med starkt besittningsskydd och förutsägbar indexering — motverkar bruksvärdesprincipen aktivt.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 62,
@@ -575,9 +801,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Liberalernas politik", url: "https://www.liberalerna.se/politik/" }],
         },
         fordelning: {
-          score: 46,
-          motivation: "L prioriterar lika möjligheter – primärt via utbildning och ökad sysselsättning – snarare än utjämnade utfall; fri marknad och valfrihet tenderar i praktiken att gynna resursstarka grupper relativt sett.",
-          sources: [{ title: "Liberalernas politik", url: "https://www.liberalerna.se/politik/" }],
+          score: 35,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: liberal skattelinje som vill sänka skatten på höga inkomster och avslår höjda kapital- och förmögenhetsskatter samt stöder friare hyressättning; undantaget är den befintliga kommunala skatteutjämningen, som L bedömer som rimlig.",
+          sources: [
+            { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+            { title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" },
+          ],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "Tillhör utskottsmajoriteten som i SkU12 avslog höjd kapitalbeskattning; partiets linje är lägre skatt på arbete, inte höjd kapitalskatt — motverkar delvis en höjning.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill sänka skatten något på höga inkomster: 'Det ska löna sig att arbeta. Vi föreslår en sänkt statlig skatt' — motverkar delvis en höjning.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Tillhör blocket som i SkU12 avslog återinförd förmögenhets- och arvsskatt; partiets liberala grundhållning motsätter sig sådana skatter — motverkar delvis.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Instämmer delvis: det finns 'ett system för att utjämna kommunernas ekonomiska förutsättningar' som L bedömer som rimligt — främjar omfördelning.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Stöder fri hyressättning i nyproduktion för att bygga fler hyresrätter, med bibehållet starkt besittningsskydd ('ganska bra förslag') — motverkar delvis bruksvärdesprincipen.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 65,
@@ -653,9 +914,47 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Miljöpartiets politik", url: "https://www.mp.se/politik" }],
         },
         fordelning: {
-          score: 62,
-          motivation: "Partiets agenda kring social rättvisa, antirasism och universella välfärdslösningar ger en tydlig fördelningsprofil; grön omfördelning som begränsar konsumtion och riktar stöd till utsatta hushåll kan ha progressiv jämlikhetseffekt.",
-          sources: [{ title: "Miljöpartiets politik", url: "https://www.mp.se/politik" }],
+          score: 90,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill höja skatten på kapital relativt arbete och på höga inkomster, beskatta dem som äger mest, utjämna mellan kommuner och stoppa marknadshyror — främjar fördelningsmålet starkt i samtliga frågor.",
+          sources: [
+            { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+            { title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" },
+          ],
+          components: [
+            {
+              componentId: "kapitalinkomstskatt",
+              position: "Reservation 9 i SkU12: vill reformera kapitalinkomstbeskattningen så att skatten på kapital höjs relativt arbete — främjar en höjning.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" }],
+            },
+            {
+              componentId: "hoga-inkomster-skatt",
+              position: "Vill höja skatten kraftigt på höga inkomster: 'De som tjänar och äger mest ska betala högre skatt' — främjar starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" }],
+            },
+            {
+              componentId: "formogenhet-arvsskatt",
+              position: "Vill att 'de som tjänar och äger mest ska betala högre skatt' och stöder höjd beskattning av förmögenhet/kapital i fördelningssyfte — främjar återinförd förmögenhetsbeskattning.",
+              score: 75,
+              sources: [
+                { title: "SVT:s valkompass 2022: Hur mycket ska höginkomsttagare betala i skatt?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-hoginkomsttagare-betala-i-skatt" },
+                { title: "Riksdagen: betänkande 2023/24:SkU12 (Företag, kapital och fastighet)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/foretag-kapital-och-fastighet_hb01sku12/" },
+              ],
+            },
+            {
+              componentId: "kommunal-skatteutjamning",
+              position: "Instämmer: 'Det är bra att den ekonomiska utjämningen mellan kommuner ses över' i utjämnande riktning — främjar omfördelning.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Mer skatteinkomster ska omfördelas från rika till fattiga kommuner", url: "https://valkompass.svt.se/2022/riksdag/fraga/mer-skatteinkomster-ska-omfordelas-fran-rika-till-fattiga-kommuner" }],
+            },
+            {
+              componentId: "marknadshyror",
+              position: "Motsätter sig marknadshyror; varnar för höjda hyror, ökad segregation och bostadsbrist för låginkomsttagare — främjar lika tillgång starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Marknadshyror ska införas på nya hyresrätter", url: "https://valkompass.svt.se/2022/riksdag/fraga/marknadshyror-ska-inforas-pa-nya-hyresratter" }],
+            },
+          ],
         },
         insats: {
           score: 40,
