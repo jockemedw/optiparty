@@ -51,8 +51,8 @@ function fakeDataset(): Dataset {
   return {
     assessmentDate: "2026-06-11",
     dimensions: [
-      { id: "a", name: "A", shortDescription: "x", grounding: "x", measures: "x" },
-      { id: "b", name: "B", shortDescription: "x", grounding: "x", measures: "x" },
+      { id: "a", name: "A", shortDescription: "x", grounding: "x", measures: "x", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
+      { id: "b", name: "B", shortDescription: "x", grounding: "x", measures: "x", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
     ],
     parties: [
       { id: "p", name: "Beta", abbreviation: "B", color: "#000000", scores: { a: entry(80), b: entry(80) }, feasibility: feas(1) },

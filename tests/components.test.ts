@@ -124,4 +124,15 @@ describe("DatasetSchema med frågebank", () => {
     delete (data.parties[0].scores.a as { components?: unknown }).components;
     expect(() => DatasetSchema.parse(data)).not.toThrow();
   });
+
+  it("avvisar dimension med bank men utan partikomponenter", () => {
+    const data = bankedDataset({ storedScore: 50 });
+    delete (data.parties[0].scores.a as { components?: unknown }).components;
+    expect(() => DatasetSchema.parse(data)).toThrow(/utan komponenter/);
+  });
+
+  it("avvisar dubblerade id:n i frågebanken", () => {
+    const data = bankedDataset({ bankIds: ["q1", "q1", "q2", "q3", "q4"], componentIds: ["q1", "q2", "q3", "q4"], componentScores: [50, 50, 50, 50], storedScore: 50 });
+    expect(() => DatasetSchema.parse(data)).toThrow(/dubblerade id:n i frågebanken/);
+  });
 });

@@ -71,6 +71,17 @@ export const DatasetSchema = z
   })
   .superRefine((data, ctx) => {
     const dims = new Map(data.dimensions.map((d) => [d.id, d]));
+
+    // Dimension-level check: duplicate ids within the questionBank
+    for (const dim of data.dimensions) {
+      if (dim.questionBank) {
+        const bankIdList = dim.questionBank.map((q) => q.id);
+        if (bankIdList.length !== new Set(bankIdList).size) {
+          ctx.addIssue({ code: "custom", message: `Dimensionen ${dim.id}: dubblerade id:n i frågebanken` });
+        }
+      }
+    }
+
     for (const party of data.parties) {
       const scoreIds = new Set(Object.keys(party.scores));
       for (const id of dims.keys()) {
@@ -92,25 +103,31 @@ export const DatasetSchema = z
           }
           const bankIds = new Set(bank.map((q) => q.id));
           const compIds = new Set(entry.components.map((c) => c.componentId));
+          let setMismatch = false;
           for (const id of bankIds) {
             if (!compIds.has(id)) {
               ctx.addIssue({ code: "custom", message: `Partiet ${party.id}, dimensionen ${dimId}: saknar komponent för bankfrågan ${id}` });
+              setMismatch = true;
             }
           }
           for (const id of compIds) {
             if (!bankIds.has(id)) {
               ctx.addIssue({ code: "custom", message: `Partiet ${party.id}, dimensionen ${dimId}: komponenten ${id} finns inte i frågebanken` });
+              setMismatch = true;
             }
           }
           if (entry.components.length !== compIds.size) {
             ctx.addIssue({ code: "custom", message: `Partiet ${party.id}, dimensionen ${dimId}: dubblerade komponent-id:n` });
+            setMismatch = true;
           }
-          const computed = bankScore(bank, entry.components);
-          if (Math.abs(computed - entry.score) > 0.5) {
-            ctx.addIssue({
-              code: "custom",
-              message: `Partiet ${party.id}, dimensionen ${dimId}: lagrad poäng ${entry.score} avviker från bankberäknad ${computed.toFixed(2)} (tolerans ±0,5)`,
-            });
+          if (!setMismatch) {
+            const computed = bankScore(bank, entry.components);
+            if (Math.abs(computed - entry.score) > 0.5) {
+              ctx.addIssue({
+                code: "custom",
+                message: `Partiet ${party.id}, dimensionen ${dimId}: lagrad poäng ${entry.score} avviker från bankberäknad ${computed.toFixed(2)} (tolerans ±0,5)`,
+              });
+            }
           }
         } else if (entry.components) {
           ctx.addIssue({ code: "custom", message: `Partiet ${party.id}, dimensionen ${dimId}: komponenter utan frågebank i dimensionen` });
