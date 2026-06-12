@@ -53,7 +53,23 @@ export const dataset: Dataset = DatasetSchema.parse({
       grounding: "Förtjänstteori (Miller 1999); empiriskt robust proportionalitetsintuition (Starmans, Sheskin & Bloom 2017).",
       measures: "Drivkrafter för arbete och företagande, skydd mot friåkning, proportion mellan insats och utfall.",
       boundary: "Proportion mellan insats och utfall. Gräns mot Fördelningsrättvisa: dimensionerna drar ofta åt olika håll — det är avsiktligt, reglagen låter besökaren välja sida. Fångar tillsammans med Frihet & autonomi de libertarianska intuitionerna om äganderätt till frukten av sitt arbete; en egen libertarianismdimension skulle dubbelräkna.",
-      exclusions: [],
+      exclusions: [
+        {
+          topic: "Karensdagen ska avskaffas",
+          reason: "K2: frågan mäter primärt sjukförsäkringens generositet (Lidandeminimering); insatspolariteten är tvåsidig — karensavdraget är ett friåkningsskydd men slår hårdast mot dem med små marginaler som inte kan avstå inkomst vid sjukdom.",
+        },
+        {
+          topic: "Hur mycket ska höginkomsttagare betala i skatt?",
+          reason: "K2: frågan är redan entydigt mappad till Fördelningsrättvisa och mäter primärt relativa gap. För insats är polariteten tvåsidig — lägre marginalskatt belönar ansträngning men frågan mäter fördelning. En fråga mappas till exakt en dimension.",
+        },
+      ],
+      questionBank: [
+        { id: "jobbskatteavdrag", question: "Skatten på arbetsinkomster ska sänkas, till exempel genom ett förstärkt jobbskatteavdrag.", polarity: "Sänkt skatt på arbete främjar målet", origin: "F1 · frågebanken för Insatsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "bidragstak-motprestation", question: "Bidragssystemen ska stramas åt med bidragstak och motprestationskrav så att det tydligt lönar sig att arbeta.", polarity: "Bidragstak och motprestationskrav främjar målet", origin: "F2 · frågebanken för Insatsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "a-kassa-niva", question: "Den tillfälliga höjningen av a-kassan ska inte permanentas, så att gapet mellan ersättning och arbetsinkomst bevaras.", polarity: "Bevarat gap mellan a-kassa och arbetsinkomst främjar målet", origin: "F3 · frågebanken för Insatsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "anstallningsskydd", question: "Det ska bli enklare för arbetsgivare att säga upp anställda (en mer rörlig arbetsmarknad).", polarity: "Mer flexibel arbetsmarknad främjar målet", origin: "F4 · frågebanken för Insatsrättvisa (protokoll v1.1)", weight: 1 },
+        { id: "rut-avdrag", question: "RUT-avdraget ska behållas som en skattelättnad som gör hushållsnära arbete lönsamt och vitt.", polarity: "Bevarat RUT-avdrag främjar målet", origin: "F5 · frågebanken för Insatsrättvisa (protokoll v1.1)", weight: 1 },
+      ],
     },
     {
       id: "frihet",
@@ -145,9 +161,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 45,
-          motivation: "Arbetslinjen finns retoriskt, men höga marginaleffekter och bidragssystemens utformning försvagar proportionen mellan insats och utfall för breda grupper.",
-          sources: [{ title: "Socialdemokraternas politik A–Ö", url: "https://www.socialdemokraterna.se/var-politik" }],
+          score: 25,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: säger nej till sänkt skatt på arbete och till bidragstaket, går till val på permanentad höjd a-kassa och försvarar anställningsskyddet; endast RUT-avdraget behålls i huvudsak. Genomgående svag koppling mellan insats och utfall i de operationaliserade frågorna.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "Säger nej till sänkt skatt på arbete: vill i stället ta bort 'pensionärsskatten' och prioriterar välfärdsfinansiering framför jobbskatteavdrag.",
+              score: 25,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Reserverar sig mot regeringens bidragstak (reservation 1): reformen 'riskerar att fördjupa barnfattigdomen, öka utsattheten'. Avvisar instrumentet, om än inte arbetslinjen i stort.",
+              score: 25,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "'Vi vill höja ersättningen i arbetslöshetsförsäkringen och går till val på att permanenta den tillfälligt stärkta a-kassan' (Mycket bra förslag) — minskar gapet mot arbetsinkomst.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Motsätter sig (Mycket dåligt förslag): 'Sverige ska fortsätta konkurrera med kompetens, trygghet och hög omställningsförmåga'; nej till fler undantag från turordningen.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill behålla RUT-avdraget (Ganska dåligt förslag om att avskaffa) — motsätter sig att avdraget tas bort.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 55,
@@ -261,9 +312,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 72,
-          motivation: "Proportionalitet mellan insats och utfall är kärnbudskap: det ska löna sig att arbeta, bidragstak, sänkt skatt på arbete och hårdare krav på motprestation.",
-          sources: [{ title: "Moderaternas politik", url: "https://moderaterna.se/var-politik/" }],
+          score: 95,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill sänka skatten på arbete, driver bidragstaket som en 'värderingsreform', vill återställa a-kassan, luckra upp anställningsskyddet och behålla RUT. Genomgående stark koppling insats–utfall.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "'Moderaterna vill sänka skatten på arbete, och särskilt för de med lägre inkomster' — flaggskeppspolitik för att det ska löna sig att arbeta.",
+              score: 100,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Driver bidragstaket: 'Bidragstaket är därför inte bara en ekonomisk reform, utan det är en värderingsreform.'",
+              score: 100,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "Avvisar permanentad höjning (Mycket dåligt förslag): 'De tillfälligt höjda nivåerna under pandemin bör återställas nu när restriktionerna upphört.'",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Stöder uppluckrat anställningsskydd (Ganska bra förslag): kompetens ska väga tyngre vid uppsägning, med förbättrade omställningsmöjligheter.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill behålla RUT-avdraget (Mycket dåligt förslag om att avskaffa).",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 65,
@@ -374,9 +460,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 58,
-          motivation: "SD betonar att välfärden ska förtjänas och förespråkar krav på motprestationer, vilket stärker kopplingen insats–utfall; incitamentstänkandet är dock primärt riktat mot migrationsfrågor snarare än mot bred arbetsmarknadspolitik.",
-          sources: [{ title: "Sverigedemokraternas politik – Vad vi vill", url: "https://www.sd.se/vad-vi-vill/" }],
+          score: 60,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill sänka skatten på låga arbetsinkomster, inför bidragstak och behåller RUT, men stöder permanentad höjd a-kassa och är ljummet negativ till uppluckrat anställningsskydd. Koppling insats–utfall starkare i skatte- och bidragsfrågor än i arbetsrätten.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "'Ja, på låga förvärvsinkomster i första hand utifrån budgetutrymme' — vill sänka skatten på arbete.",
+              score: 75,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Stöder bidragstaket: 'Vi inför ett bidragstak för större hushåll därför att systemen måste vara långsiktigt hållbara.'",
+              score: 100,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "'Vi är positiva till att den tillfälliga höjningen av a-kassan permanentas' (Mycket bra förslag) — minskar gapet mot arbetsinkomst.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Något negativ (Ganska dåligt förslag) trots stöd för partsöverenskommelsen bakom LAS-ändringarna; värnar tryggheten i anställningen.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill behålla RUT-avdraget (Mycket dåligt förslag om att avskaffa).",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 40,
@@ -496,9 +617,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 30,
-          motivation: "Partiets betoning på kollektiv solidaritet framför individuell meritbelöning, kombinerat med höga marginalskatter och begränsade krav på motprestationer för transfereringar, minskar klart proportionen mellan individuell insats och utfall.",
-          sources: [{ title: "Vänsterpartiets politik", url: "https://www.vansterpartiet.se/var-politik/" }],
+          score: 5,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: säger nej till sänkt skatt på arbete, leder motståndet mot bidragstaket, vill stärka a-kassan, var ensamt parti mot LAS-uppluckringen och vill avskaffa RUT. Genomgående svag koppling mellan individuell insats och utfall i de operationaliserade frågorna.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "'Nej. Det finns inget egenvärde i höga skatter på arbete' men avvisar generella sänkningar; öppnar bara för lägre skatt på låga inkomster.",
+              score: 25,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Leder motståndet (reservation 2): 'en av de största försämringarna' — avvisar bidragstaket helt.",
+              score: 0,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "Vill stärka arbetslöshetsförsäkringen utöver förslaget (Mycket bra förslag om permanentning) — minskar gapet mot arbetsinkomst.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Motsätter sig starkt (Mycket dåligt förslag, extra viktig fråga): var ensamt parti som röstade mot LAS-ändringarna.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill avskaffa RUT-avdraget (Mycket bra förslag om att avskaffa).",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 52,
@@ -609,9 +765,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 68,
-          motivation: "Kärnbudskapet att det ska löna sig att arbeta och driva företag omsätts i sänkta arbetsgivaravgifter, lägre inkomstskatt på landsbygd och förenklat regelverk; incitamenten för arbete och ansträngning stärks konsekvent i politiken.",
-          sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
+          score: 80,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: 'det ska alltid löna sig att arbeta' — vill sänka skatten på arbete, stöder arbetslinjen och bidragsreformen, vill luckra upp anställningsskyddet och försvarar RUT starkt; svalt snarare än helt emot permanentad a-kassa.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "'Ja. Det ska alltid löna sig att arbeta' — vill sänka skatten på arbete, mest för låg- och medelinkomsttagare.",
+              score: 75,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Stöder arbetslinjen och kraven i bidragsreformen ('Arbetslinjen är en av de mest grundläggande principerna'), med reservation om utvärderingen.",
+              score: 75,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "Negativ till permanentad höjning (Ganska dåligt förslag): vill en omställningsförsäkring som är högre först och trappas ner snabbare.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Stöder utökade undantag från turordningen (Ganska bra förslag) med ett grundläggande omställnings- och kompetensstöd.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill behålla RUT-avdraget (Mycket dåligt förslag om att avskaffa, extra viktig fråga).",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 75,
@@ -725,9 +916,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 62,
-          motivation: "Kristen demokratis etik betonar ansvar, arbete och att bidrag till samhället ska ge utdelning; krav på motprestationer i transfereringssystem kombineras med familjens roll som primär solidaritetsenhet.",
-          sources: [{ title: "Kristdemokraternas politik", url: "https://www.kristdemokraterna.se/var-politik/" }],
+          score: 90,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill sänka skatten på arbete, stöder bidragstaket, vill återställa a-kassan, luckra upp anställningsskyddet och behålla RUT. Genomgående stark koppling insats–utfall.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "'Ja. Vi har föreslagit och finansierat en generell skattesänkning för alla' som arbetar — sänkt skatt på arbete.",
+              score: 75,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Stöder bidragstaket: 'Bidragstaket kommer samlat att innebära en minskning av nivån på försörjningsstödet.'",
+              score: 100,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "Avvisar permanentad höjning (Mycket dåligt förslag): vill återgå till taknivåerna i a-kassan som gällde före coronapandemin.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Stöder ökad flexibilitet (Ganska bra förslag) genom utökade undantag från turordningen för att öka rörligheten och uppmuntra anställningar.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill behålla RUT-avdraget (Mycket dåligt förslag om att avskaffa, extra viktig fråga).",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 58,
@@ -841,9 +1067,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 65,
-          motivation: "Meritokrati, eget ansvar och att arbete ska löna sig präglar partiprogrammet; frihandel, arbetsmarknadsflexibilitet och lägre marginalskatter stärker kopplingen mellan individuell insats och utfall.",
-          sources: [{ title: "Liberalernas politik", url: "https://www.liberalerna.se/politik/" }],
+          score: 90,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: 'det ska löna sig bättre att jobba' — vill sänka skatten på arbete, står som regeringsparti bakom bidragstaket, är negativ till permanentad a-kassa, stöder en rörligare arbetsmarknad och behåller RUT.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "'Ja. Det ska löna sig bättre att jobba, utbilda sig och ta ansvar' — kärnpolitik för sänkt skatt på arbete.",
+              score: 100,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Står som regeringsparti (M, KD, L) bakom propositionens bidragstak och skärpta krav för försörjningsstöd.",
+              score: 100,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "Negativ till permanentad höjning (Ganska dåligt förslag): 'I den här situationen är det fel signal att höja ersättningen till den som är arbetslös.'",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Stöder LAS-reformen (Ganska bra förslag): 'arbetsmarknaden blir mer rörlig' med bibehållna grundläggande villkor.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill behålla RUT-avdraget (Mycket dåligt förslag om att avskaffa).",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 72,
@@ -957,9 +1218,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         insats: {
-          score: 40,
-          motivation: "Miljöpartiet prioriterar kollektiv och ekologisk hållbarhet framför individuella meritbelöningar; stöd för universella bidragssystem och begränsad betoning av krav på motprestationer minskar kopplingen insats–utfall.",
-          sources: [{ title: "Miljöpartiets politik", url: "https://www.mp.se/politik" }],
+          score: 30,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill visserligen sänka skatten på arbete via arbetsgivaravgift och grundavdrag och behålla RUT, men motsätter sig bidragstaket, vill stärka a-kassan och bevara anställningsskyddet. Sammantaget svag koppling insats–utfall i bidrags- och arbetsrättsfrågorna.",
+          sources: [
+            { title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" },
+            { title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "jobbskatteavdrag",
+              position: "'Ja. Miljöpartiet vill bland annat sänka arbetsgivaravgiften och höja grundavdraget' — vill sänka skatten på arbete.",
+              score: 75,
+              sources: [{ title: "Arbetsvärlden: Sex av åtta partier vill sänka skatten på arbete", url: "https://www.arbetsvarlden.se/sex-av-atta-partier-vill-sanka-skatten-pa-arbete/" }],
+            },
+            {
+              componentId: "bidragstak-motprestation",
+              position: "Motsätter sig bidragstaket: försörjningsstödet är skyddsnätets sista utväg och ska inte användas för att pressa människor djupare i fattigdom.",
+              score: 0,
+              sources: [{ title: "Riksdagens betänkande 2025/26:SoU30 (Reformerat försörjningsstöd – bidragstak)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/reformerat-forsorjningsstod-bidragstak-och-okade_hd01sou30/" }],
+            },
+            {
+              componentId: "a-kassa-niva",
+              position: "Stöder permanentad höjning och en mer universell a-kassa (Mycket bra förslag) — minskar gapet mot arbetsinkomst.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Den tillfälliga höjningen i A-kassan ska permanentas", url: "https://valkompass.svt.se/2022/riksdag/fraga/den-tillfalliga-hojningen-i-a-kassan-ska-permanentas" }],
+            },
+            {
+              componentId: "anstallningsskydd",
+              position: "Motsätter sig (Mycket dåligt förslag): vill skapa anställningstrygghet och förhindra missbruk av korta kontrakt i stället för fasta jobb.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Det ska bli enklare för arbetsgivare att säga upp anställda", url: "https://valkompass.svt.se/2022/riksdag/fraga/det-ska-bli-enklare-for-arbetsgivare-att-saga-upp-anstallda" }],
+            },
+            {
+              componentId: "rut-avdrag",
+              position: "Vill behålla RUT-avdraget (Ganska dåligt förslag om att avskaffa).",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: RUT-avdraget ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/rut-avdraget-ska-avskaffas" }],
+            },
+          ],
         },
         frihet: {
           score: 60,

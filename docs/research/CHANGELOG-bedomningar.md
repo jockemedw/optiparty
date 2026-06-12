@@ -7,6 +7,38 @@ protokolländring, b: ändrat källäge) och källa.
 
 ## 2026-06-13
 
+- **Dimensionen Insatsrättvisa migrerad till beräknade poäng** (regel a:
+  protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
+  med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor
+  och §D-läge dokumenteras i `2026-06-13-insats-fragebank.md`. Frågorna: sänkt
+  skatt på arbete (jobbskatteavdrag), bidragstak och motprestationskrav,
+  a-kassenivå (gapet mot arbetsinkomst), uppluckrat anställningsskydd och
+  RUT-avdraget. De kurerade poängen ersätts:
+
+  | Parti | Tidigare (kurerad) | Ny (beräknad) |
+  |---|---|---|
+  | S | 45 | 25 |
+  | M | 72 | 95 |
+  | SD | 58 | 60 |
+  | V | 30 | 5 |
+  | C | 68 | 80 |
+  | KD | 62 | 90 |
+  | L | 65 | 90 |
+  | MP | 40 | 30 |
+
+  Källor (samtliga fetch-verifierade 2026-06-13): SVT:s valkompass 2022
+  (riksdag) för tre frågor med partiernas egna svar (a-kassan permanentas,
+  enklare säga upp anställda, RUT-avdraget ska avskaffas), Arbetsvärldens
+  sammanställning "Sex av åtta partier vill sänka skatten på arbete"
+  (jobbskatteavdrag) samt riksdagens betänkande 2025/26:SoU30 (Reformerat
+  försörjningsstöd – bidragstak) inklusive reservationerna (S res. 1, V res. 2,
+  MP emot; M, KD, L, SD för; C för arbetslinjen med reservation). Inga §D-flaggor
+  — samtliga åtta partier har validerbar position i alla fem frågor.
+  Per-frågekällor anges per delkomponent i `src/data/dataset.ts`. Som vid de
+  tidigare migreringarna faller de partier vars konkreta ställningstaganden inte
+  matchar måttet (S, V) medan arbetslinjepartierna (M, KD, L, C) stiger — en
+  konsekvens av metoden, ingen handjustering.
+
 - **Dimensionen Fördelningsrättvisa migrerad till beräknade poäng** (regel a:
   protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
   med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor
