@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Breakdown } from "@/lib/model/calc";
-import type { Dimension, Party, ScoreComponent, ScoreEntry } from "@/lib/model/types";
+import type { Dimension, Party, PartyComponent, QuestionBankEntry, ScoreEntry } from "@/lib/model/types";
 import { fmt, pct } from "@/lib/format";
 
 interface Props {
@@ -100,7 +100,9 @@ export default function CalculationSheet({ breakdown, dimensions, party, g, colo
                       {entry.motivation}
                     </p>
                     <SourceLinks entry={entry} />
-                    {entry.components && <ComponentTable components={entry.components} />}
+                    {entry.components && dim?.questionBank && (
+                      <ComponentTable bank={dim.questionBank} components={entry.components} />
+                    )}
                   </div>
                 }
               />
@@ -162,35 +164,30 @@ export default function CalculationSheet({ breakdown, dimensions, party, g, colo
   );
 }
 
-/** Frågenivån: dimensionspoängen uppbyggd av delkomponenter — en rad per
- *  valkompass-/sakfråga med partiets validerade position, poäng och vikt. */
-function ComponentTable({ components }: { components: ScoreComponent[] }) {
-  const totalWeight = components.reduce((sum, c) => sum + c.weight, 0);
+/** Frågenivån: dimensionspoängen uppbyggd ur frågebanken — en rad per
+ *  bankfråga med partiets validerade position, poäng och vikt. */
+function ComponentTable({ bank, components }: { bank: QuestionBankEntry[]; components: PartyComponent[] }) {
+  const totalWeight = bank.reduce((sum, q) => sum + q.weight, 0);
+  const byId = new Map(components.map((c) => [c.componentId, c]));
   return (
     <div className="mt-4">
       <p className="text-[10px] tracking-[0.3em] text-ink-faint uppercase">
         Delkomponenter · dimensionspoäng = Σ(vikt × frågepoäng)
       </p>
       <ul className="mt-2 flex flex-col">
-        {components.map((c) => {
-          const w = c.weight / totalWeight;
+        {bank.map((q) => {
+          const c = byId.get(q.id);
+          if (!c) return null;
+          const w = q.weight / totalWeight;
           return (
-            <li key={c.id} className="border-b border-rule/60 py-2.5 last:border-b-0">
-              <p className="font-serif text-sm leading-snug">{c.question}</p>
-              <p className="mt-1 font-serif text-sm leading-relaxed text-ink-soft">
-                {c.position}
-              </p>
+            <li key={q.id} className="border-b border-rule/60 py-2.5 last:border-b-0">
+              <p className="font-serif text-sm leading-snug">{q.question}</p>
+              <p className="mt-1 font-serif text-sm leading-relaxed text-ink-soft">{c.position}</p>
               <p className="mt-1.5 text-[11px] text-ink-faint tabular-nums">
-                {c.origin} · vikt {pct(w)} × poäng {c.score} ={" "}
+                {q.origin} · vikt {pct(w)} × poäng {c.score} ={" "}
                 <span className="font-medium text-ink">{fmt(w * c.score, 2)}</span>
                 {c.sources.map((s) => (
-                  <a
-                    key={s.url}
-                    href={s.url}
-                    className="ml-3 underline decoration-rule-strong underline-offset-2 hover:text-stamp"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a key={s.url} href={s.url} className="ml-3 underline decoration-rule-strong underline-offset-2 hover:text-stamp" target="_blank" rel="noopener noreferrer">
                     {s.title} ↗
                   </a>
                 ))}
