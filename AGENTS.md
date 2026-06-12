@@ -22,7 +22,7 @@ npx serve out      # rök-testa den statiska exporten
 ## Arkitektur
 
 - `src/data/dataset.ts` — ENDA stället innehåll ändras (dimensioner, partipoäng, källor, genomförbarhet)
-- `src/lib/model/` — rena, testade funktioner: `types.ts` (zod-kontrakt), `calc.ts` (normalisering/ranking), `url.ts` (vikter ↔ query-params)
+- `src/lib/model/` — rena, testade funktioner: `types.ts` (zod-kontrakt inkl. frågebanksinvarianter), `calc.ts` (normalisering/ranking/bankScore), `url.ts` (vikter ↔ query-params)
 - `src/components/VerdictBoard.tsx` äger allt UI-state; `WeightPanel`/`RankingList`/`CalculationSheet` är dumma
 - `src/app/` — `/` (domen), `/metodik` (alla poäng + källor), `/om`
 
