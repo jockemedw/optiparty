@@ -98,7 +98,23 @@ export const dataset: Dataset = DatasetSchema.parse({
       grounding: "Liberal frihetstradition (Mill 1859, Berlin 1958) och capability approach (Sen 1999, Nussbaum 2011); rättsstaten som frihetens institution.",
       measures: "Självbestämmande, rättssäkerhet, maktdelning, reella valmöjligheter.",
       boundary: "Förmågan och rätten att själv välja, även att välja 'fel'. Gräns mot Samlat välbefinnande: välbefinnande mäter utfallet, frihet mäter självbestämmandet. Rättsstat och maktdelning poängsätts här — demokrati som egen dimension skulle diskriminera dåligt eftersom alla riksdagspartier formellt bekänner sig till den.",
-      exclusions: [],
+      exclusions: [
+        {
+          topic: "Religiösa/konfessionella friskolor (förbud)",
+          reason: "K2: polariteten mot frihetsmålet är tvåsidig — ett förbud inskränker föräldrarnas och församlingarnas religions- och föreningsfrihet, men kan samtidigt hävdas värna barnets rätt till en öppen framtid och egen autonomi (Feinberg); segregations- och likvärdighetsargumenten hör dessutom till andra dimensioner.",
+        },
+        {
+          topic: "Public service-styrning (minskat anslag/omfång)",
+          reason: "K2: ett oberoende public service kan hävdas både stärka det fria ordet och maktdelningen och utgöra en statligt finansierad medieaktör som en frihetlig inriktning vill begränsa. Polariteten mot självbestämmande/rättsstat är inte entydig.",
+        },
+      ],
+      questionBank: [
+        { id: "valfrihet-valfard", question: "Det ska vara tillåtet för fristående aktörer att driva och dela ut vinst i skattefinansierad välfärd (inget vinstutdelningsförbud i välfärden).", polarity: "Bevarad valfrihet/driftsfrihet (nej till vinstförbud) främjar målet", origin: "F1 · frågebanken för Frihet & autonomi (protokoll v1.1)", weight: 1 },
+        { id: "gardsforsaljning", question: "Gårdsförsäljning av alkohol ska tillåtas, så att alkoholmonopolet luckras upp till förmån för närings- och konsumentfrihet.", polarity: "Ja till gårdsförsäljning främjar målet", origin: "F2 · frågebanken för Frihet & autonomi (protokoll v1.1)", weight: 1 },
+        { id: "dodshjalp", question: "Dödshjälp i livets slutskede ska utredas och tillåtas, så att svårt sjuka själva kan bestämma över sin död.", polarity: "Att utreda/öppna för dödshjälp främjar målet", origin: "F3 · frågebanken för Frihet & autonomi (protokoll v1.1)", weight: 1 },
+        { id: "overvakning", question: "Polisens befogenheter till hemlig avlyssning och övervakning utan konkret brottsmisstanke ska hållas tillbaka till skydd för integritet och rättssäkerhet.", polarity: "Återhållsamhet med övervakning utan brottsmisstanke främjar målet", origin: "F4 · frågebanken för Frihet & autonomi (protokoll v1.1)", weight: 1 },
+        { id: "visitationszoner", question: "Polisen ska inte ges rätt att upprätta visitationszoner där människor kan kroppsvisiteras utan individuell brottsmisstanke.", polarity: "Nej till visitationszoner utan brottsmisstanke främjar målet", origin: "F5 · frågebanken för Frihet & autonomi (protokoll v1.1)", weight: 1 },
+      ],
     },
     {
       id: "framtid",
@@ -256,9 +272,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         frihet: {
-          score: 55,
-          motivation: "Stark på reella förmågor (utbildning, vård som frihetsförutsättning) i capability-mening; svagare på negativ frihet med benägenhet för reglering och paternalism.",
-          sources: [{ title: "Socialdemokraternas partiprogram och riktlinjer", url: "https://www.socialdemokraterna.se/var-politik/partiprogram-och-riktlinjer" }],
+          score: 25,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: S vill förbjuda vinstutdelning i välfärden, säger nej till gårdsförsäljning och till dödshjälpsutredning och vill ge polisen mycket mer övervakning utan brottsmisstanke; endast motståndet mot visitationszoner drar åt frihetshållet. Genomgående svag negativ frihet i de operationaliserade frågorna.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" },
+            { title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett mycket bra förslag: 'Våra skattepengar ska gå till elevernas utbildning … inte till riskkapitalisters vinster' — vill begränsa driftsfriheten/valfriheten i välfärden.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "Motsätter sig gårdsförsäljning med hänvisning till att det inte är förenligt med EU:s regler om detaljhandelsmonopol — värnar Systembolagsmonopolet.",
+              score: 25,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Säger nej till en parlamentarisk utredning om dödshjälp; ett av två partier som inte vill att frågan utreds.",
+              score: 25,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill ge polisen 'mycket mer' möjlighet till hemlig avlyssning och övervakning utan brottsmisstanke: tidig tillgång till information är avgörande för att förhindra skjutningar och sprängningar.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Anser visitationszoner vara ett ganska dåligt förslag — polisen har redan stora befogenheter och åtgärden riskerar 'göra mer skada än nytta'.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 80,
@@ -442,9 +493,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         frihet: {
-          score: 65,
-          motivation: "Stark på negativ frihet: äganderätt, valfrihet i välfärden, näringsfrihet; repressiva inslag i kriminalpolitiken drar ned rättssäkerhetsdelen något.",
-          sources: [{ title: "Moderaternas idéprogram", url: "https://moderaterna.se/var-politik/" }],
+          score: 50,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: M värnar valfriheten/vinst i välfärden, stöder gårdsförsäljning och en dödshjälpsutredning; samtidigt vill partiet ge polisen mycket mer övervakning utan brottsmisstanke och driver visitationszoner — stark negativ frihet på marknads- och anti-paternalismfrågorna men låg på rättssäkerhet mot statens tvångsmakt.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" },
+            { title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett mycket dåligt förslag; försvarar vinstdrivande friskolor med hårda kvalitetskrav och indragna tillstånd vid brister — värnar valfriheten/driftsfriheten starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "För gårdsförsäljning: 'Gårdsförsäljning av alkohol ska tillåtas då detta är en viktig del av utvecklingen', med bevarat Systembolagsmonopol.",
+              score: 75,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Ett av sex partier som vill utreda dödshjälp och öppna för frågan om självbestämmande i livets slutskede.",
+              score: 75,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill ge polisen 'mycket mer' befogenheter till hemlig avlyssning, dataavläsning och kamerabevakning mot aktiva gängkriminella utan konkret brottsmisstanke.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Tycker visitationszoner är ett mycket bra förslag; våldet håller 'tusentals människor och hela stadsdelar i ett järngrepp' och polisen behöver verktyg att söka efter illegala vapen.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 60,
@@ -625,9 +711,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         frihet: {
-          score: 40,
-          motivation: "Nationalistisk kulturpolitik och sträng immigrationskontroll inskränker reell och formell frihet för en betydande befolkningsgrupp bosatt i Sverige; medborgerliga friheter för svenska medborgare upprätthålls i övrigt utan märkbara inskränkningar.",
-          sources: [{ title: "Sverigedemokraternas politik – Vad vi vill", url: "https://www.sd.se/vad-vi-vill/" }],
+          score: 50,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: SD värnar valfriheten i välfärden, stöder gårdsförsäljning och en dödshjälpsutredning och vill bara ha något mer övervakning, men driver visitationszoner fullt ut — en blandad frihetsprofil där rättssäkerheten mot polismakten väger lätt.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" },
+            { title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett ganska dåligt förslag; värnar valfriheten och vill inte skuldbelägga privata aktörer för skolans problem.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "För gårdsförsäljning som möjliggör för små bryggerier, med bibehållen roll för Systembolaget.",
+              score: 75,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Ett av sex partier som vill utreda dödshjälp och öppna för frågan om självbestämmande i livets slutskede.",
+              score: 75,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill ge polisen 'lite mer' förebyggande övervakning inriktad mot gängkriminella miljöer.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Tycker visitationszoner är ett mycket bra förslag mot narkotikaförsäljning och skjutningar i utsatta områden.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 45,
@@ -817,9 +938,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         frihet: {
-          score: 52,
-          motivation: "Stark på reella förmågor i Sens tradition – allas rätt till bostad, vård och utbildning – men motstånd mot privata alternativ i välfärden och tung statlig reglering begränsar negativ frihet och individuell valfrihet.",
-          sources: [{ title: "Vänsterpartiets politik", url: "https://www.vansterpartiet.se/var-politik/" }],
+          score: 55,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: V säger ja till vinstutdelningsförbud och nej till gårdsförsäljning men stöder en dödshjälpsutredning och är det parti som starkast värnar rättssäkerheten mot statens tvångsmakt — vill ha mindre hemlig övervakning utan brottsmisstanke och avvisar visitationszoner helt.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" },
+            { title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett mycket bra förslag; avvisar skolan som marknad och vill återföra kontrollen till samhället — begränsar driftsfriheten/valfriheten.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "Mot gårdsförsäljning: 'alkohol inte ska vara tillgängligt som om det var vilken vara som helst' — värnar monopolet.",
+              score: 25,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Ett av sex partier som vill utreda dödshjälp och öppna för frågan om självbestämmande i livets slutskede.",
+              score: 75,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill ha 'lite mindre' hemlig tvångsmedelsanvändning: hemliga tvångsmedel ska kräva brottsmisstanke och förebyggande åtgärder bara för de grövsta brotten.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Tycker visitationszoner är ett mycket dåligt förslag; visitation utan misstanke drabbar oskyldiga, ökar risken för profilering och skadar förtroendet för polisen.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 85,
@@ -1001,8 +1157,43 @@ export const dataset: Dataset = DatasetSchema.parse({
         },
         frihet: {
           score: 75,
-          motivation: "Individens rätt att bestämma över sitt eget liv är partiets värdemässiga ledstjärna – 'alla ska kunna bestämma över sitt liv genom egna och fria val'; brett stöd för valfrihet i välfärd, äganderätt och anti-paternalism ger hög autonomipoäng.",
-          sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: C är frihetligt på samtliga delar — värnar valfrihet i välfärden, gårdsförsäljning och en dödshjälpsutredning samt avvisar visitationszoner helt, och vill behålla dagens övervakningsnivå men kräver konkret brottsmisstanke. Det enda parti som håller frihetslinjen i både marknads-, anti-paternalism- och rättssäkerhetsfrågorna.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" },
+            { title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett ganska dåligt förslag; accepterar vinst för utveckling men vill begränsa utdelning vid tillsynsbrister — värnar i huvudsak valfriheten.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "För gårdsförsäljning av egna produkter där de tillverkas, med bevarat Systembolagsmonopol; långvarig profilfråga för partiet.",
+              score: 75,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Svängde 2023 om och vill se en parlamentarisk utredning av dödshjälp (motion 2023/24:2581 av Kerstin Lundgren), vilket skapade riksdagsmajoritet för en utredning.",
+              score: 75,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill behålla övervakningen på 'samma som i dag'; stöder utökade verktyg men kräver konkret brottsmisstanke för att de ska få användas — validerad status quo-position.",
+              score: 50,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Tycker visitationszoner är ett mycket dåligt förslag; låter polisen visitera vem som helst utan skäl och hotar förtroendet mellan polis och allmänhet.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 80,
@@ -1186,9 +1377,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         frihet: {
-          score: 58,
-          motivation: "KD värnar rättsstaten, demokrati och religionsfrihet, och den moderna partilinjen är pluralistisk i praktiken; kristdemokratisk värdegrund inkluderar viss social konservatism kring familjeliv som kan anta paternalistisk karaktär.",
-          sources: [{ title: "Kristdemokraternas politik", url: "https://www.kristdemokraterna.se/var-politik/" }],
+          score: 35,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: KD värnar valfrihet/vinst i välfärden och stöder gårdsförsäljning, men säger principiellt nej till dödshjälp och vill ge polisen mycket mer övervakning utan brottsmisstanke samt driver visitationszoner — låg negativ frihet mot statens tvångsmakt och i livets slutskede.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" },
+            { title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett mycket dåligt förslag: 'Privata aktörer får göra en vinst i välfärden är i sig inget problem' — kvalitet före driftsform, värnar valfriheten starkt.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "För gårdsförsäljning av lokal produktion i små volymer utan att hota Systembolagsmonopolet.",
+              score: 75,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Säger principiellt nej till dödshjälp och vill inte att frågan utreds; dödshjälp ska förbli förbjuden — motverkar aktivt självbestämmande i livets slutskede.",
+              score: 0,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill ge polisen 'mycket mer' förebyggande avlyssning av gängkriminella utan konkret brottsmisstanke.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Tycker visitationszoner är ett mycket bra förslag; liknande system fungerar 'helt okontroversiellt' i andra länder.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 55,
@@ -1372,9 +1598,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         frihet: {
-          score: 72,
-          motivation: "Frihet är partiets kärnideologi – 'För din frihet' – med stark betoning på negativ frihet, rättsstat, demokrati och medborgerliga rättigheter inklusive HBTQI-rättigheter; konsekvent anti-paternalistisk profil i program och praktisk politik.",
-          sources: [{ title: "Liberalernas politik", url: "https://www.liberalerna.se/politik/" }],
+          score: 55,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: L driver dödshjälpslegalisering hårdast och stöder gårdsförsäljning, men säger 'mycket mer' till hemlig övervakning utan brottsmisstanke och stöder delvis ett vinstutdelningsförbud — frihetsbrandingen 'För din frihet' överlever inte rättssäkerhetsfrågan om statens övervakningsmakt.",
+          sources: [
+            { title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" },
+            { title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett ganska bra förslag: 'Det ska vara förbjudet med all form av vinstutdelning som går ut över elevernas undervisning' — vill delvis begränsa driftsfriheten.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "För gårdsförsäljning: 'Det bör vara tillåtet att sälja egna produkter där de tillverkas', med villkor som skyddar Systembolaget.",
+              score: 75,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Driver hårdast en parlamentarisk utredning om — och legalisering av — dödshjälp i livets slutskede; starkt och konkret självbestämmandeåtagande.",
+              score: 100,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill ge polisen 'mycket mer' förebyggande övervakningsrätt mot dokumenterat kriminella innan konkret brottsmisstanke finns.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Tycker visitationszoner är ett ganska dåligt förslag; andra åtgärder (mer närvarande polis, tidiga sociala insatser, enklare kamerabevakning) är viktigare.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 65,
@@ -1558,9 +1819,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           ],
         },
         frihet: {
-          score: 60,
-          motivation: "Stark på civila rättigheter, HBTQI-rättigheter och livsstilsfrihet i liberal tradition; miljöregleringar och konsumtionsbegränsningar innebär å andra sidan en form av paternalism som delvis begränsar individuell autonomi och valfrihet.",
-          sources: [{ title: "Miljöpartiets politik", url: "https://www.mp.se/politik" }],
+          score: 45,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: MP säger ja till vinstutdelningsförbud och nej till gårdsförsäljning men stöder en dödshjälpsutredning och avvisar visitationszoner helt; partiet vill bara ha något mer övervakning, med uttalat skydd för mänskliga rättigheter — stark på rättssäkerhet, svagare på marknads- och anti-paternalismfrihet.",
+          sources: [
+            { title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" },
+            { title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" },
+          ],
+          components: [
+            {
+              componentId: "valfrihet-valfard",
+              position: "Tycker vinstutdelningsförbud är ett mycket bra förslag: 'Skolans syfte ska alltid vara utbildning – aldrig vinst' — vill begränsa driftsfriheten/valfriheten.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Vinstutdelning för friskolor ska förbjudas", url: "https://valkompass.svt.se/2022/riksdag/fraga/vinstutdelning-for-friskolor-ska-forbjudas" }],
+            },
+            {
+              componentId: "gardsforsaljning",
+              position: "Mot gårdsförsäljning av hälsoskäl: 'alkohol är ju inte vilken vara som helst' — värnar monopolet.",
+              score: 25,
+              sources: [{ title: "Vinbanken: Gårdsförsäljning av alkohol – så tycker de olika partierna (2022)", url: "https://vinbanken.se/2022/09/07/gardsforsaljning-av-alkohol-sa-tycker-de-olika-partierna" }],
+            },
+            {
+              componentId: "dodshjalp",
+              position: "Ett av sex partier som vill utreda dödshjälp och öppna för frågan om självbestämmande i livets slutskede.",
+              score: 75,
+              sources: [{ title: "Senioren: Sex partier vill utreda dödshjälp", url: "https://www.senioren.se/nyheter/254501/" }],
+            },
+            {
+              componentId: "overvakning",
+              position: "Vill ha 'lite mer' övervakning mot grov brottslighet men med uttalat skydd för mänskliga rättigheter.",
+              score: 25,
+              sources: [{ title: "SVT:s valkompass 2022: Hur mycket ska polisen få använda hemlig avlyssning och övervakning utan brottsmisstanke?", url: "https://valkompass.svt.se/2022/riksdag/fraga/hur-mycket-ska-polisen-fa-anvanda-hemlig-avlyssning-och-overvakning-utan-brottsmisstanke" }],
+            },
+            {
+              componentId: "visitationszoner",
+              position: "Tycker visitationszoner är ett mycket dåligt förslag; drabbar oproportionerligt socioekonomiskt utsatta områden och riskerar kollektiv utpekning.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Polisen ska kunna upprätta visitationszoner i brottsutsatta områden", url: "https://valkompass.svt.se/2022/riksdag/fraga/polisen-ska-kunna-uppratta-visitationszoner-i-brottsutsatta-omraden" }],
+            },
+          ],
         },
         framtid: {
           score: 85,

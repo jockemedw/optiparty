@@ -7,6 +7,44 @@ protokolländring, b: ändrat källäge) och källa.
 
 ## 2026-06-13
 
+- **Dimensionen Frihet & autonomi migrerad till beräknade poäng** (regel a:
+  protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
+  med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor
+  och §D-läge dokumenteras i `2026-06-13-frihet-fragebank.md`. Frågorna:
+  valfrihet/vinst i välfärden (inget vinstutdelningsförbud), gårdsförsäljning av
+  alkohol, dödshjälp i livets slutskede (utreda/tillåta), återhållsamhet med
+  hemlig övervakning utan brottsmisstanke och nej till polisens visitationszoner.
+  De kurerade poängen ersätts:
+
+  | Parti | Tidigare (kurerad) | Ny (beräknad) |
+  |---|---|---|
+  | S | 55 | 25 |
+  | M | 65 | 50 |
+  | SD | 40 | 50 |
+  | V | 52 | 55 |
+  | C | 75 | 75 |
+  | KD | 58 | 35 |
+  | L | 72 | 55 |
+  | MP | 60 | 45 |
+
+  Källor (samtliga fetch-verifierade 2026-06-13): SVT:s valkompass 2022
+  (riksdag) för tre frågor med partiernas egna svar (vinstutdelningsförbud i
+  friskolor, hemlig avlyssning/övervakning utan brottsmisstanke, visitationszoner),
+  Vinbankens partisammanställning om gårdsförsäljning (2022-09-07) och Seniorens
+  sammanställning "Sex partier vill utreda dödshjälp" (C, V, L, MP, M, SD för
+  utredning; S och KD emot; L driver legalisering). Vinstutdelningsfrågan flyttades
+  hit från Fördelningsrättvisa (utesluten där enligt K2 som främst en
+  valfrihets-/driftsformsfråga). Två frågor uteslöts (K2, tvåsidig polaritet):
+  religiösa/konfessionella friskolor (förbud) och public service-styrning. Inga
+  §D-flaggor — samtliga åtta partier har validerbar position i alla fem frågor
+  (C:s "samma som i dag" i övervakningsfrågan är en validerad status quo-position,
+  inte en §D-flagga). Per-frågekällor anges per delkomponent i
+  `src/data/dataset.ts`. Dimensionen blandar två frihetstraditioner: anti-paternalism
+  och välfärdsvalfrihet gynnar de borgerliga partierna, medan rättssäkerheten mot
+  statens tvångsmakt (övervakning, visitationszoner) gynnar C, V och MP. Därför
+  faller L (frihetsbranding till trots), KD och S, medan C håller toppen — en
+  konsekvens av metoden, ingen handjustering.
+
 - **Dimensionen Lidandeminimering migrerad till beräknade poäng** (regel a:
   protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
   med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor
