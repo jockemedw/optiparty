@@ -102,8 +102,11 @@ export default function Metodik() {
       <p className="mt-4 leading-relaxed text-ink-soft">
         Dimensionspoäng (0–100) sätts mot fasta ankare, alltid med motivering och källa per poäng.
         Poängen är ankarkalibrerade kurerade bedömningar av partiernas offentliga material — inte
-        mätningar. Det är en erkänd v1-begränsning som redovisas öppet; en finare nedbrytning per
-        dimension är en dokumenterad v1.1-förbättring.
+        mätningar. Det är en erkänd v1-begränsning som redovisas öppet. En finare nedbrytning per
+        dimension — delkomponenter byggda på valkompassfrågor med validerbara partipositioner,
+        poäng per fråga som viktas till dimensionstotal — är specificerad som protokollutkast
+        v1.1 och införs dimension för dimension efter godkännande; migrerade dimensioner
+        redovisar sina delkomponenter under §7 och i beräkningen på förstasidan.
       </p>
       <RubricTable caption="Skalankare för dimensionspoäng" rows={scaleAnchors} />
 
@@ -208,6 +211,40 @@ export default function Metodik() {
                         </a>
                       ))}
                     </dd>
+                    {entry.components && (
+                      <dd className="mt-3 border-t border-rule pt-3">
+                        <p className="font-mono text-[10px] tracking-[0.25em] text-ink-faint uppercase">
+                          Delkomponenter · poäng = Σ(vikt × frågepoäng)
+                        </p>
+                        <ul className="mt-2 space-y-2">
+                          {entry.components.map((c) => {
+                            const total = entry.components!.reduce((sum, x) => sum + x.weight, 0);
+                            return (
+                              <li key={c.id} className="text-sm">
+                                <span className="leading-snug">{c.question}</span>
+                                <span className="ml-2 font-mono text-[11px] text-ink-faint tabular-nums">
+                                  {c.origin} · vikt {fmt((c.weight / total) * 100)} % × {c.score}
+                                </span>
+                                <p className="mt-0.5 text-sm leading-relaxed text-ink-soft">{c.position}</p>
+                                <p className="font-mono text-[11px]">
+                                  {c.sources.map((s) => (
+                                    <a
+                                      key={s.url}
+                                      href={s.url}
+                                      className="mr-4 text-ink-faint underline decoration-rule-strong underline-offset-2 hover:text-stamp"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {s.title} ↗
+                                    </a>
+                                  ))}
+                                </p>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </dd>
+                    )}
                   </div>
                 );
               })}

@@ -26,6 +26,17 @@ export function finalScore(policy: number, feasibilityFactor: number, g: number)
   return policy * (1 - g + g * feasibilityFactor);
 }
 
+export interface ComponentLike {
+  score: number;
+  weight: number;
+}
+
+/** Dimensionspoäng ur delkomponenter: viktad summa av frågepoäng (vikterna normaliseras). */
+export function componentScore(components: ComponentLike[]): number {
+  const total = components.reduce((sum, c) => sum + c.weight, 0);
+  return components.reduce((sum, c) => sum + (c.weight / total) * c.score, 0);
+}
+
 export interface DimensionContribution {
   dimensionId: string;
   weight: number;
