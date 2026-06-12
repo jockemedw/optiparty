@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { normalizeWeights, policyScore, finalScore, rankParties } from "@/lib/model/calc";
+import { normalizeWeights, policyScore, finalScore, rankParties, bankScore } from "@/lib/model/calc";
 import type { Dataset } from "@/lib/model/types";
 
 describe("normalizeWeights", () => {
@@ -51,8 +51,8 @@ function fakeDataset(): Dataset {
   return {
     assessmentDate: "2026-06-11",
     dimensions: [
-      { id: "a", name: "A", shortDescription: "x", grounding: "x", measures: "x" },
-      { id: "b", name: "B", shortDescription: "x", grounding: "x", measures: "x" },
+      { id: "a", name: "A", shortDescription: "x", grounding: "x", measures: "x", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
+      { id: "b", name: "B", shortDescription: "x", grounding: "x", measures: "x", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
     ],
     parties: [
       { id: "p", name: "Beta", abbreviation: "B", color: "#000000", scores: { a: entry(80), b: entry(80) }, feasibility: feas(1) },
@@ -80,5 +80,31 @@ describe("rankParties", () => {
     const ranked = rankParties(fakeDataset(), { a: 50, b: 50 }, 1);
     expect(ranked[0].party.name).toBe("Aaa");
     expect(ranked[1].party.name).toBe("Beta");
+  });
+});
+
+describe("bankScore", () => {
+  it("joinar bankvikter med partikomponenternas poäng", () => {
+    const bank = [
+      { id: "f1", weight: 1 },
+      { id: "f2", weight: 1 },
+    ];
+    const components = [
+      { componentId: "f2", score: 0 },
+      { componentId: "f1", score: 100 },
+    ];
+    expect(bankScore(bank, components)).toBeCloseTo(50);
+  });
+
+  it("normaliserar bankvikterna", () => {
+    const bank = [
+      { id: "f1", weight: 3 },
+      { id: "f2", weight: 1 },
+    ];
+    const components = [
+      { componentId: "f1", score: 100 },
+      { componentId: "f2", score: 0 },
+    ];
+    expect(bankScore(bank, components)).toBeCloseTo(75);
   });
 });

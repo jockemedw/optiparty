@@ -11,8 +11,8 @@ function makeDataset(overrides: object = {}) {
   return {
     assessmentDate: "2026-06-11",
     dimensions: [
-      { id: "a", name: "A", shortDescription: "Kort.", grounding: "Teori.", measures: "Mäter." },
-      { id: "b", name: "B", shortDescription: "Kort.", grounding: "Teori.", measures: "Mäter." },
+      { id: "a", name: "A", shortDescription: "Kort.", grounding: "Teori.", measures: "Mäter.", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
+      { id: "b", name: "B", shortDescription: "Kort.", grounding: "Teori.", measures: "Mäter.", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
     ],
     parties: [
       {

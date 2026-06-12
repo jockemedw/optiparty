@@ -55,8 +55,8 @@ describe("explainParty", () => {
     const dataset = {
       assessmentDate: "2026-06-11",
       dimensions: [
-        { id: "a", name: "A", shortDescription: "x", grounding: "x", measures: "x" },
-        { id: "b", name: "B", shortDescription: "x", grounding: "x", measures: "x" },
+        { id: "a", name: "A", shortDescription: "x", grounding: "x", measures: "x", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
+        { id: "b", name: "B", shortDescription: "x", grounding: "x", measures: "x", boundary: "En gränsdragningstext som är tillräckligt lång.", exclusions: [] },
       ],
       parties: [party],
     };
