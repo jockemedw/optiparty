@@ -7,6 +7,42 @@ protokolländring, b: ändrat källäge) och källa.
 
 ## 2026-06-13
 
+- **Dimensionen Lidandeminimering migrerad till beräknade poäng** (regel a:
+  protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
+  med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor
+  och §D-läge dokumenteras i `2026-06-13-lidande-fragebank.md`. Frågorna:
+  utbyggd psykiatri/suicidprevention, narkotikaomläggning mot skademinimering
+  (sprutbyte, naloxon, brukarrum, omprövad kriminalisering av eget bruk),
+  nationell hemlöshetsstrategi enligt Bostad först, stärkt brottsofferstöd och
+  kortade vårdköer. De kurerade poängen ersätts:
+
+  | Parti | Tidigare (kurerad) | Ny (beräknad) |
+  |---|---|---|
+  | S | 68 | 75 |
+  | M | 50 | 70 |
+  | SD | 48 | 60 |
+  | V | 74 | 80 |
+  | C | 45 | 75 |
+  | KD | 58 | 65 |
+  | L | 48 | 80 |
+  | MP | 55 | 75 |
+
+  Källor (samtliga fetch-verifierade 2026-06-13): SVT:s valfrågeguiden 2022 för
+  två frågor med partiernas egna svar (Minska psykisk ohälsa, Kortare vårdköer),
+  riksdagens betänkande 2024/25:SoU13 (ANDTS) inklusive reservationerna för
+  narkotikaskademinimering (V res. 10, MP res. 18, S res. 17, L brukarrum; M, SD
+  och KD restriktiva), SVT:s rapportering av Centerstämmans beslut 2025-11-15 om
+  avkriminalisering, regeringens nationella hemlöshetsstrategi 2022–2026 (S,
+  Bostad först), Fastighetstidningens valguide för övriga partiers
+  bostads-/hemlöshetspolitik samt riksdagens betänkande 2023/24:JuU18 (Våldsbrott
+  och brottsoffer) för brottsofferstödet. Inga §D-flaggor — samtliga åtta partier
+  har validerbar position i alla fem frågor. Per-frågekällor anges per
+  delkomponent i `src/data/dataset.ts`. Lidandeminimering är en bred
+  konsensusdimension (tre valensfrågor), vilket lyfter poängen uppåt och
+  komprimerar fältet; differentieringen kommer främst från
+  narkotika- och hemlöshetsfrågorna. Som vid de tidigare migreringarna är detta
+  en konsekvens av metoden, ingen handjustering.
+
 - **Dimensionen Insatsrättvisa migrerad till beräknade poäng** (regel a:
   protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
   med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor

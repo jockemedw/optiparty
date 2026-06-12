@@ -19,7 +19,27 @@ export const dataset: Dataset = DatasetSchema.parse({
       grounding: "Negativ utilitarism (Popper 1945) och prioritarianism (Parfit 1991): förbättringar väger tyngre ju sämre ställd mottagaren är.",
       measures: "Fattigdom, psykisk ohälsa, vårdköer, missbruk, hemlöshet, brottsoffer.",
       boundary: "Absolut nivå hos de sämst ställda: förbättringar väger tyngre ju sämre ställd mottagaren är. Gräns mot Samlat välbefinnande: där räknas alla lika. Gräns mot Fördelningsrättvisa: lidande är absolut (hur illa har de sämst ställda det?), fördelning är relativ (hur stora är gapen?).",
-      exclusions: [],
+      exclusions: [
+        {
+          topic: "A-kassans nivå",
+          reason: "K4: frågan listas i §I även för Lidandeminimering men är redan migrerad och mappad till Insatsrättvisa (komponenten a-kassa-niva, inverterad polaritet). En fråga mappas till exakt en dimension; utesluts här för att inte dubbelräknas.",
+        },
+        {
+          topic: "Tiggeriförbud",
+          reason: "K2: polariteten mot lidandemålet är tvåsidig — ett förbud kan hävdas både öka de mest utsattas utsatthet (kriminaliserar de fattigaste) och minska utnyttjandet av människor i tiggeri.",
+        },
+        {
+          topic: "Sjukförsäkringens ersättningsnivå/karensavdraget",
+          reason: "K2/K4: mappas i §I till Samlat välbefinnande och har dessutom tvåsidig polaritet (friåkningsskydd kontra skydd för dem med små marginaler, jfr K2-uteslutningen i Insatsrättvisa).",
+        },
+      ],
+      questionBank: [
+        { id: "psykiatri", question: "Vården av psykisk ohälsa och suicidprevention ska byggas ut kraftigt.", polarity: "Utbyggd psykiatri främjar målet", origin: "F1 · frågebanken för Lidandeminimering (protokoll v1.1)", weight: 1 },
+        { id: "narkotika-skademinimering", question: "Narkotikapolitiken ska läggas om mot skademinimering (sprutbyte, naloxon, brukarrum, lågtröskelvård) och kriminaliseringen av eget bruk ska omprövas.", polarity: "Omläggning mot skademinimering främjar målet", origin: "F2 · frågebanken för Lidandeminimering (protokoll v1.1)", weight: 1 },
+        { id: "hemloshet-bostad-forst", question: "En nationell hemlöshetsstrategi enligt Bostad först ska driva ner hemlösheten.", polarity: "Ambitiös hemlöshetsstrategi/Bostad först främjar målet", origin: "F3 · frågebanken för Lidandeminimering (protokoll v1.1)", weight: 1 },
+        { id: "brottsofferstod", question: "Stödet till brottsoffer ska stärkas.", polarity: "Stärkt brottsofferstöd främjar målet", origin: "F4 · frågebanken för Lidandeminimering (protokoll v1.1)", weight: 1 },
+        { id: "vardkoer", question: "Vårdköerna ska kortas med kraftfulla åtgärder.", polarity: "Kortade köer främjar målet", origin: "F5 · frågebanken för Lidandeminimering (protokoll v1.1)", weight: 1 },
+      ],
     },
     {
       id: "fordelning",
@@ -119,9 +139,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Socialdemokraternas partiprogram och riktlinjer", url: "https://www.socialdemokraterna.se/var-politik/partiprogram-och-riktlinjer" }],
         },
         lidande: {
-          score: 68,
-          motivation: "Tydlig prioritering av utsatta grupper via a-kassa, sjukförsäkring och riktade välfärdssatsningar; psykiatri- och vårdköfrågan adresseras men med begränsad reformhöjd.",
-          sources: [{ title: "Socialdemokraternas politik A–Ö", url: "https://www.socialdemokraterna.se/var-politik" }],
+          score: 75,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: den S-ledda regeringen beslutade om en nationell hemlöshetsstrategi med Bostad först, vill bygga ut psykiatrin och stärka statens och regionernas insatser mot vårdköer samt samla brottsoffrens rättigheter i en brottsofferlag; narkotikapolitiken hålls dock restriktiv med blandad inställning till skademinimering.",
+          sources: [
+            { title: "Regeringen: Nationell hemlöshetsstrategi 2022–2026 (Bostad först nationellt)", url: "https://www.regeringen.se/artiklar/2022/10/---regeringen-beslutar-om-en-nationell-hemloshetsstrategi/" },
+            { title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "Vill förbättra vården med likvärdiga förebyggande insatser för barn och unga och stärkt elevhälsa för att tidigt upptäcka psykisk ohälsa — tydligt programåtagande.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Reservation 17 i SoU13: välkomnar bättre tillgång till naloxon och stärkt samordnad vård för samsjuklighet, men håller fast vid en restriktiv narkotikapolitik och säger nej till avkriminalisering av eget bruk — blandad inriktning.",
+              score: 50,
+              sources: [{ title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Den S-ledda regeringen beslutade om en nationell hemlöshetsstrategi 2022–2026 där 'Bostad först bör införas nationellt' med riktat statsbidrag till kommunerna — starkt och konkret.",
+              score: 100,
+              sources: [{ title: "Regeringen: Nationell hemlöshetsstrategi 2022–2026 (Bostad först nationellt)", url: "https://www.regeringen.se/artiklar/2022/10/---regeringen-beslutar-om-en-nationell-hemloshetsstrategi/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Reservation 16 (med MP) i JuU18: vill samla brottsoffrens rättigheter i en samlad brottsofferlag — driver stärkt brottsofferstöd.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "'Staten och regionernas insatser för att minska köerna ska stärkas' och privata utförare ska samverka för att korta köerna — tydligt programåtagande.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 75,
@@ -267,9 +322,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Moderaternas idéprogram", url: "https://moderaterna.se/var-politik/" }],
         },
         lidande: {
-          score: 50,
-          motivation: "Brottsofferperspektiv och vårdköfokus väger upp; samtidigt innebär stramare ersättningssystem ökad risk för de ekonomiskt mest utsatta.",
-          sources: [{ title: "Moderaternas politik", url: "https://moderaterna.se/var-politik/" }],
+          score: 70,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: konkreta flaggskepp i valensfrågorna lyfter poängen — lagstadgad 30-dagarsgaranti i barnpsykiatrin och en nationell vårdförmedling mot köer, plus Tidöpartiernas fokusskifte mot brottsoffer; samtidigt försvarad restriktiv narkotikalinje och ingen nationell hemlöshetsstrategi.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" },
+            { title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "Vill lagstifta att 'barn som mår psykiskt dåligt och behöver hjälp och stöd ska få det inom maximalt 30 dagar' och behandling inom ytterligare 30 dagar — konkret, kvantifierat flaggskepp.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Försvarar den restriktiva narkotikapolitiken med nolltolerans och motsätter sig avkriminalisering; inga skademinimerande reservationer i SoU13 — motverkar delvis omläggningen mot skademinimering.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Fokuserar på att underlätta bostadsköp och vill utveckla kommunernas sociala kontrakt; driver ingen nationell hemlöshetsstrategi eller Bostad först — svag/blandad inriktning.",
+              score: 50,
+              sources: [{ title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Driver Tidöpartiernas fokusskifte mot brottsoffer med utökat mandat för Brottsoffermyndigheten och pågående reformer för stärkt brottsofferstöd.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "Vill 'inrätta en nationell vårdförmedling' för att korta köerna — konkret strukturreform.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 20,
@@ -415,9 +505,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Sverigedemokraternas politik – Vad vi vill", url: "https://www.sd.se/vad-vi-vill/" }],
         },
         lidande: {
-          score: 48,
-          motivation: "Stark betoning på brottsoffer och trygghet gynnar utsatta i brottsdrabbade miljöer; restriktiv migrationspolitik begränsar dock tillgången till välfärd och skydd för nyanlända i nöd, vilket ökar absolut utsatthet i den gruppen.",
-          sources: [{ title: "Sverigedemokraternas politik – Vad vi vill", url: "https://www.sd.se/vad-vi-vill/" }],
+          score: 60,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill ha en nationell strategi för psykisk ohälsa och suicidprevention, driver med Tidömajoriteten fokusskiftet mot brottsoffer och budgeterar tillskott mot vårdköer; samtidigt restriktiv narkotikalinje och ingen nationell hemlöshetsstrategi.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" },
+            { title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "Vill ha en 'långsiktig och hållbar nationell strategi' med suicidprevention, stärkt elevhälsa och satsning på ungdomspsykiatrin.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Försvarar i SoU13 den restriktiva narkotikapolitiken utan skademinimerande reservationer — motverkar delvis omläggningen mot skademinimering.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Betonar bostadsbidrag och fler sociala kontrakt på kommunal nivå och ser hemlöshet främst som ett kommunalt problem; driver ingen nationell strategi — svag/blandad inriktning.",
+              score: 50,
+              sources: [{ title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Del av Tidömajoriteten som driver fokusskiftet mot brottsoffer och stärkt brottsofferstöd via pågående propositioner.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "Har 'budgeterat för stora tillskott till regionerna' och bättre arbetsvillkor för att korta köerna — programåtagande utan namngiven strukturreform.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 50,
@@ -569,9 +694,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Vänsterpartiets politik", url: "https://www.vansterpartiet.se/var-politik/" }],
         },
         lidande: {
-          score: 74,
-          motivation: "Omfördelning till de mest utsatta – stärkt a-kassa, utbyggd psykiatri, bostadsrättsreformer och fattigdomsbekämpning – är kärnan i partiprogrammet med tydlig prioritarianistisk logik; oppositionsläget begränsar kortsiktig genomförandekraft.",
-          sources: [{ title: "Vänsterpartiets politik", url: "https://www.vansterpartiet.se/var-politik/" }],
+          score: 80,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: starkast i fältet på narkotikaomläggning mot skademinimering (brukarrum, avkriminalisering av eget bruk), vill stärka primärvård och elevhälsa, bygga billiga hyresrätter för de sämst ställda och stärka brottsofferstödet.",
+          sources: [
+            { title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" },
+            { title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "Vill 'stärka primärvården och elevhälsan' med 'låga trösklar för att få hjälp' vid psykisk ohälsa.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Reservation 10 i SoU13 (Karin Rågsjö): vill utvärdera kriminaliseringen av eget bruk, lägga om målet mot minskade skador och införa brukarrum — enda parti som vill avskaffa straff för eget bruk (Portugalmodellen). Starkt och konkret.",
+              score: 100,
+              sources: [{ title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Ser bostaden som en social rättighet, inte en handelsvara, och vill bygga billiga hyresrätter med låga hyror för de sämst ställda.",
+              score: 75,
+              sources: [{ title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Reservation 3 i JuU18: vill stärka polisens och åklagarnas arbete vid brott mot kvinnor och barn — driver stärkt brottsofferstöd.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "Vill 'öka personaltätheten' med höjda löner och bättre villkor för att korta köerna — programåtagande utan namngiven strukturreform.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 100,
@@ -720,9 +880,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
         },
         lidande: {
-          score: 45,
-          motivation: "Marknadslösningar och valfrihet driver agendan med svagare träffsäkerhet för de mest utsatta i absoluta termer; geografisk utjämning stad–land är central men ersätter inte specifika satsningar på fattigdom, missbruk eller psykiatri.",
-          sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
+          score: 75,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: vill avkriminalisera eget bruk för att fler ska söka vård, snabb hjälp vid psykisk ohälsa och utnyttja all vårdkapacitet (kömiljard) mot köer, plus stärkt brottsofferskydd; svagare på en sammanhållen hemlöshetsstrategi.",
+          sources: [
+            { title: "SVT: Centerpartiet vill avkriminalisera narkotika i kroppen (2025)", url: "https://www.svt.se/nyheter/inrikes/centerpartiet-vill-avkriminalisera-narkotika-i-kroppen" },
+            { title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "'Människor som mår dåligt behöver snabbt få hjälp' genom utbyggd primärvård och tillgänglig samtalsterapi utan krav på specialist.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Partistämman beslutade (2025-11-15) att avkriminalisera förekomst av narkotika i kroppen för att fler ska söka vård och frigöra polisresurser — främjar omläggningen mot vård före straff.",
+              score: 75,
+              sources: [{ title: "SVT: Centerpartiet vill avkriminalisera narkotika i kroppen (2025)", url: "https://www.svt.se/nyheter/inrikes/centerpartiet-vill-avkriminalisera-narkotika-i-kroppen" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Vill utveckla en social bostadssektor med befintliga allmännyttiga verktyg men kombinerar det med friare hyressättning i nyproduktion; driver ingen nationell hemlöshetsstrategi — blandad inriktning.",
+              score: 50,
+              sources: [{ title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Driver i JuU18 reservationer för stärkt brottsofferskydd (bland annat digital trygghet och traumastöd).",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "'All sjukvårdskapacitet som finns ska användas för att korta köerna' med riktade statsbidrag (kömiljard) — konkret flaggskepp.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 35,
@@ -871,9 +1066,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Kristdemokraternas politik", url: "https://www.kristdemokraterna.se/var-politik/" }],
         },
         lidande: {
-          score: 58,
-          motivation: "Omsorg om äldre, funktionsnedsatta och utsatta familjer är en uttalad värdegrundsprincip; fokus är primärt på socialt integrerade utsatta och familjenära grupper snarare än de allra mest marginaliserade.",
-          sources: [{ title: "Kristdemokraternas politik", url: "https://www.kristdemokraterna.se/var-politik/" }],
+          score: 65,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: profilfrågan om nationellt huvudmannaskap för vården ger maxpoäng mot vårdköer, utbyggd primärvård och ungdomspsykiatri samt fokusskifte mot brottsoffer väger upp; samtidigt avvisad narkotikaomläggning ('narkotikafritt samhälle') och ingen nationell hemlöshetsstrategi.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" },
+            { title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "Vill ha en 'rejält utbyggd primärvård' som grund med tidiga insatser i alla åldrar och utbyggd ungdomspsykiatri.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Motsätter sig (Dan Hovskär, SoU13) legalisering/avkriminalisering och står fast vid målet om 'ett narkotikafritt samhälle' — motverkar delvis omläggningen mot skademinimering.",
+              score: 25,
+              sources: [{ title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Förespråkar bostadsförmedling med social hänsyn och ökad rörlighet på bostadsmarknaden; driver ingen nationell hemlöshetsstrategi eller Bostad först — svag/blandad inriktning.",
+              score: 50,
+              sources: [{ title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Del av Tidömajoriteten som driver fokusskiftet mot brottsoffer och stärkt brottsofferstöd via pågående reformer.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "'Sverige behöver först och främst ett nationellt ansvar för vården' med fler vårdplatser och nationell vårdförmedling — konkret strukturreform (statligt huvudmannaskap).",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 20,
@@ -1022,9 +1252,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Liberalernas politik", url: "https://www.liberalerna.se/politik/" }],
         },
         lidande: {
-          score: 48,
-          motivation: "Liberal marknadsansats erbjuder svagare direktskydd för de mest utsatta i absoluta termer; utbildning och sysselsättning lyfts som vägen ur utsatthet men akuta insatser för hemlösa, missbrukare och brottsoffer är inte partiets tydliga profil.",
-          sources: [{ title: "Liberalernas politik", url: "https://www.liberalerna.se/politik/" }],
+          score: 80,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: uttalat starkast på hemlöshet (Bostad först och nationell strategi) och bland reformpartierna på narkotikaskademinimering (brukarrum, naloxon), plus stark primärvård/psykiatri och fokusskifte mot brottsoffer.",
+          sources: [
+            { title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" },
+            { title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "Vill ha en 'stark primärvård' i hela landet med psykiatriambulanser och bättre samordning mellan BUP, skola och socialtjänst.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Förespråkar brukarrum och bred tillgång till naloxon som 'minskar överdosrelaterade skador och dödsfall' — främjar skademinimering.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Förordar uttryckligen Bostad först ('Att få en bostad, en trygg punkt i tillvaron, är det viktigaste') och föreslår en nationell hemlöshetsstrategi och behovsbostäder — starkt och konkret.",
+              score: 100,
+              sources: [{ title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Del av Tidömajoriteten som driver fokusskiftet mot brottsoffer och stärkt brottsofferstöd via pågående propositioner.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "Vill korta vårdköerna 'genom ekonomiska styrmedel' och effektivare organisation — programåtagande utan namngiven strukturreform.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 35,
@@ -1170,9 +1435,44 @@ export const dataset: Dataset = DatasetSchema.parse({
           sources: [{ title: "Miljöpartiets politik", url: "https://www.mp.se/politik" }],
         },
         lidande: {
-          score: 55,
-          motivation: "Miljöpartiet kombinerar klimatpolitik med social rättvisa och stöd till utsatta hushåll; den ekologiska prioriteringen innebär dock att akuta behov hos de allra mest marginaliserade inte är partiets primära politikfokus.",
-          sources: [{ title: "Miljöpartiets politik", url: "https://www.mp.se/politik" }],
+          score: 75,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: jämnt främjande över alla fem frågor — narkotikaomläggning mot skademinimering (brukarrum), nationell hemlöshetsstrategi och bostadsstiftelse, vård för psykisk ohälsa på lika villkor, brottsofferlag och åtgärder mot vårdköer.",
+          sources: [
+            { title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" },
+            { title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" },
+          ],
+          components: [
+            {
+              componentId: "psykiatri",
+              position: "Vill göra det 'lika lätt och självklart att söka vård för psykisk ohälsa' som för fysisk ohälsa, med tidigt samtalsstöd.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska psykisk ohälsa", url: "https://www.svt.se/valfrageguiden/forslag/minska-psykisk-ohalsa" }],
+            },
+            {
+              componentId: "narkotika-skademinimering",
+              position: "Reservation 18 i SoU13 (Ulrika Westerlund): vill lägga om målet mot skademinimering och att regeringen utreder brukarrum — främjar omläggningen.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2024/25:SoU13 (Alkohol, narkotika, dopning, tobak och spel)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/alkohol-narkotika-dopning-tobak-och-spel_hc01sou13/" }],
+            },
+            {
+              componentId: "hemloshet-bostad-forst",
+              position: "Vill ha en nationell hemlöshetsstrategi och en bostadsstiftelse och kritiserar sociala kontrakt som tillfälliga lösningar ('barnfamiljer slussas mellan olika tillfälliga lösningar').",
+              score: 75,
+              sources: [{ title: "Fastighetstidningen: Snabbguide till valet – social bostadspolitik (2022)", url: "https://fastighetstidningen.se/snabbguide-till-valet-social-bostadspolitik/" }],
+            },
+            {
+              componentId: "brottsofferstod",
+              position: "Reservation 16 (med S) i JuU18: vill samla brottsoffrens rättigheter i en samlad brottsofferlag — driver stärkt brottsofferstöd.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2023/24:JuU18 (Våldsbrott och brottsoffer)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/valdsbrott-och-brottsoffer_hb01juu18/" }],
+            },
+            {
+              componentId: "vardkoer",
+              position: "'Bättre arbetsvillkor och arbetsmiljö är förutsättningen' för att behålla personal och korta köerna — programåtagande.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Kortare vårdköer", url: "https://www.svt.se/valfrageguiden/forslag/kortare-vardkoer" }],
+            },
+          ],
         },
         fordelning: {
           score: 90,
