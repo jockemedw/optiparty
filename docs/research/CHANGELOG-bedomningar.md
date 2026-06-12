@@ -7,6 +7,50 @@ protokolländring, b: ändrat källäge) och källa.
 
 ## 2026-06-13
 
+- **Dimensionen Samlat välbefinnande migrerad till beräknade poäng** (regel a:
+  protokolländring v1.1). Därmed är samtliga sex dimensioner beräknade ur
+  delkomponenter. Poängen beräknas nu ur fem likaviktade delkomponenter med
+  källverifierade partipositioner; frågebank, polaritet, uteslutna frågor och
+  §D-läge dokumenteras i `2026-06-13-valbefinnande-fragebank.md`. Frågorna:
+  stärkt skola för högre kunskapsresultat, utbyggd äldreomsorg, tillbakapressat
+  gängvåld (ökad trygghet), förstärkt och breddat högkostnadsskydd för tandvård
+  samt avskaffat karensavdrag i sjukförsäkringen. De kurerade poängen ersätts:
+
+  | Parti | Tidigare (kurerad) | Ny (beräknad) |
+  |---|---|---|
+  | S | 62 | 75 |
+  | M | 60 | 70 |
+  | SD | 52 | 75 |
+  | V | 55 | 85 |
+  | C | 63 | 60 |
+  | KD | 56 | 60 |
+  | L | 60 | 70 |
+  | MP | 53 | 90 |
+
+  Källor (samtliga fetch-verifierade 2026-06-13): SVT:s valfrågeguiden 2022 för
+  tre valensfrågor med partiernas egna svar (Likvärdig utbildning, God
+  äldreomsorg, Minska gängvåldet), SVT:s valkompass 2022 (riksdag) för
+  karensavdraget med partiernas graderade svar (MP och V mycket bra, S och SD
+  ganska bra, M/C/KD/L mycket dåligt) samt riksdagens betänkande 2025/26:SoU10
+  (Ett förstärkt högkostnadsskydd för tandvård) inklusive reservationerna (SD
+  drev reformen, M/KD/L biföll, C res. landsbygd, V res. 1 och 5 för bredare
+  skydd, S res. 4 för avgiftsfri tandvård 19–23) och MP:s motion 2025/26:3824
+  (högkostnadsskydd för hela befolkningen). Fyra frågor uteslöts: skattetryckets
+  nivå (K2, tvåsidig — finansierar välfärd men ger deadweight loss),
+  förstatligande av sjukvården (K2, tvåsidig organisationsform), vinster i
+  välfärden (K4, redan mappad till Frihet & autonomi) och minska arbetslösheten
+  (K2/K4, operationaliseras via Insatsrättvisas instrument). Inga §D-flaggor —
+  samtliga åtta partier har validerbar position i alla fem frågor.
+  Sjukförsäkringsfrågan, som uteslutits ur Insatsrättvisa och Lidandeminimering,
+  landar slutligen här enligt §I; trygghetsfrågan mäter aggregerat
+  välfärdsutfall (en annan lins än Frihet & autonomis rättssäkerhet och
+  Lidandeminimerings brottsofferstöd). Per-frågekällor anges per delkomponent i
+  `src/data/dataset.ts`. Som den K4-svåraste dimensionen bygger frågebanken till
+  stor del på valensfrågor; differentieringen kommer från karensavdraget (hela
+  det borgerliga blocket emot) och tandvården (SD, V, MP i topp). Att V och MP
+  stiger mest speglar att de är mest expansiva på de konkreta välfärdsinstrument
+  frågebanken mäter — en konsekvens av metoden, ingen handjustering.
+
 - **Dimensionen Frihet & autonomi migrerad till beräknade poäng** (regel a:
   protokolländring v1.1). Poängen beräknas nu ur fem likaviktade delkomponenter
   med källverifierade partipositioner; frågebank, polaritet, uteslutna frågor

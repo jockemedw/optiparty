@@ -10,7 +10,31 @@ export const dataset: Dataset = DatasetSchema.parse({
       grounding: "Klassisk utilitarism (Bentham 1789, Mill 1863); operationaliserad i SWB/WELLBY-forskningen (Layard; HM Treasury Green Book 2021) och OECD Better Life Index.",
       measures: "Aggregerat välbefinnande för flest människor: ekonomi, hälsa, utbildning, socialt stöd.",
       boundary: "Räknar alla människor lika och mäter utfallet. Gräns mot Lidandeminimering: den viktar botten av fördelningen, denna räknar alla lika. Gräns mot Frihet & autonomi: välbefinnande mäter om folk mår bra, frihet mäter förmågan och rätten att själv välja — paternalistisk politik kan ge plus här och minus där.",
-      exclusions: [],
+      exclusions: [
+        {
+          topic: "Skattetryckets nivå",
+          reason: "K2: listas i §I men är genuint tvåsidig för det aggregerade välbefinnandet — ett högre skattetryck finansierar välfärd som höjer välbefinnandet men medför samtidigt effektivitetsförluster (deadweight loss) som sänker välståndet. Ingen entydig polaritet mot målet.",
+        },
+        {
+          topic: "Vinster i välfärden / driftsform",
+          reason: "K4: listas i §I men är redan migrerad och mappad till Frihet & autonomi (komponenten valfrihet-valfard, polaritet 'bevarad driftsfrihet främjar'). En sakfråga mappas till exakt en dimension; utesluts här för att inte dubbelräknas.",
+        },
+        {
+          topic: "Förstatligande av sjukvården",
+          reason: "K2: 'vårdens organisering' operationaliseras i SVT:s valkompass 2022 som statligt övertagande, men polariteten mot målet är tvåsidig — förespråkarna hävdar mer jämlik och kapabel vård, motståndarna (sex av åtta partier) hävdar att nära regionalt styrd vård ger mer tillgänglig och bättre vård för befolkningen.",
+        },
+        {
+          topic: "Minska arbetslösheten",
+          reason: "K2/K4: SVT:s valfrågeguiden 2022 har förslaget, men partierna operationaliserar målet med just de instrument (bidragstak, sänkt skatt på arbete, motprestation) som redan är mappade till Insatsrättvisa; att poängsätta frågan skulle dubbelräkna arbetslinjens instrument, och medlen är dessutom tvåsidiga för det aggregerade välbefinnandet.",
+        },
+      ],
+      questionBank: [
+        { id: "utbildning-skolresultat", question: "Skolan ska stärkas så att kunskapsresultaten höjs för hela befolkningen.", polarity: "Konkreta resultathöjande skolreformer främjar målet", origin: "F1 · frågebanken för Samlat välbefinnande (protokoll v1.1)", weight: 1 },
+        { id: "aldreomsorg", question: "Äldreomsorgen ska byggas ut och kvaliteten höjas.", polarity: "Utbyggd och förbättrad äldreomsorg främjar målet", origin: "F2 · frågebanken för Samlat välbefinnande (protokoll v1.1)", weight: 1 },
+        { id: "trygghet-gangvald", question: "Gängvåldet ska pressas tillbaka så att tryggheten ökar i hela befolkningen.", polarity: "Kraftfulla åtgärder mot gängvåld (ökad trygghet) främjar målet", origin: "F3 · frågebanken för Samlat välbefinnande (protokoll v1.1)", weight: 1 },
+        { id: "tandvard-hogkostnadsskydd", question: "Tandvården ska föras närmare övrig sjukvård genom ett förstärkt och breddat högkostnadsskydd.", polarity: "Starkare och breddat tandvårdsskydd främjar målet", origin: "F4 · frågebanken för Samlat välbefinnande (protokoll v1.1)", weight: 1 },
+        { id: "sjukforsakring-karens", question: "Karensavdraget i sjukförsäkringen ska avskaffas så att människor inte tvingas arbeta sjuka eller förlora inkomst.", polarity: "Avskaffat karensavdrag (tryggare sjukförsäkring) främjar målet", origin: "F5 · frågebanken för Samlat välbefinnande (protokoll v1.1)", weight: 1 },
+      ],
     },
     {
       id: "lidande",
@@ -150,9 +174,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#E8112d",
       scores: {
         valbefinnande: {
-          score: 62,
-          motivation: "Bred välfärdsagenda med generell sjukvård, skola och trygghetssystem som täcker hela befolkningen; svagare på tillväxt- och produktivitetsreformer som lyfter välståndet på sikt.",
-          sources: [{ title: "Socialdemokraternas partiprogram och riktlinjer", url: "https://www.socialdemokraterna.se/var-politik/partiprogram-och-riktlinjer" }],
+          score: 75,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: programåtaganden för stärkt skola, fler anställda i välfärden, brett brottsbekämpande och brottsförebyggande arbete mot gängvåld, breddat tandvårdsskydd och en reformerad sjukförsäkring där karensavdraget ses som ett 'ganska bra' förslag att avskaffa.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "Vill återföra ett statligt huvudansvar för skolan, stärka lärarnas auktoritet och styra resurser till undervisning i stället för vinst — programåtagande för högre och jämnare kunskapsresultat.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill ha 'fler anställda i välfärden' med bättre arbetsvillkor, fasta omsorgskontakter i hemtjänsten och stärkt medicinsk kompetens i äldreomsorgen.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "'Det krävs flera åtgärder, såväl brottsbekämpande som brottsförebyggande' — utökad avlyssning i gängmiljöer och snabbare lagföring för att pressa tillbaka gängvåldet.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Stödjer det förstärkta högkostnadsskyddet men reserverar sig (res. 4) för att återinföra avgiftsfri tandvård för unga 19–23 år — vill bredda reformen.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Ganska bra förslag' att avskaffa karensdagen; karensavdraget 'påverkar olika utifrån kön, yrke och ställning på arbetsmarknaden' och bör reformeras för ökad trygghet.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 75,
@@ -368,9 +427,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#52BDEC",
       scores: {
         valbefinnande: {
-          score: 60,
-          motivation: "Tillväxt-, jobb- och företagsfokus med god förväntad effekt på aggregerat välstånd; mindre vikt vid välbefinnandefaktorer som socialt stöd och arbetsliv/balans.",
-          sources: [{ title: "Moderaternas idéprogram", url: "https://moderaterna.se/var-politik/" }],
+          score: 70,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: konkreta flaggskepp för högre skolresultat (mer undervisningstid, kunskapsfokus) och mot gängvåld (kriminaliserat gängdeltagande, dubbla straff) lyfter poängen, liksom stöd för det förstärkta tandvårdsskyddet och en sjuksköterske-/läkartät äldreomsorg; karensavdraget försvaras dock som ett 'mycket dåligt' förslag att avskaffa.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "Konkret kunskapsagenda: mer undervisningstid (en lektion mer per dag i lågstadiet), fokus på mätbara faktakunskaper och ordningsbetyg — flaggskepp för högre skolresultat.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill säkra 'god tillgång till sjuksköterskor och läkare' på äldreboenden, minska delade turer och ställa språkkrav på personalen.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "Vill kriminalisera gängdeltagande, införa dubbla straff för gängkriminella, visitationszoner och anonyma vittnen — omfattande konkret trygghetsagenda.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Regeringsparti bakom prop. 2025/26:27; stödjer det förstärkta högkostnadsskyddet för tandvård som en motiverad prioritering av de äldre med störst behov.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Mycket dåligt förslag' att avskaffa karensdagen — 'karensdagen fyller en viktig funktion' för att motverka onödiga sjukskrivningar.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 70,
@@ -586,9 +680,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#DDDD00",
       scores: {
         valbefinnande: {
-          score: 52,
-          motivation: "Satsningar på välfärd, polis och pensioner adresserar viktiga välståndsfaktorer; finansieringsmodellen – frigjorda medel via minskad invandring – är osäker och försvårar bedömningen av nettopåverkan på aggregerat välbefinnande.",
-          sources: [{ title: "Sverigedemokraternas politik – Vad vi vill", url: "https://www.sd.se/vad-vi-vill/" }],
+          score: 75,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: drev igenom tandvårdsreformen ('största välfärdsreformen på 20 år'), vill att staten återtar skolan, satsar på straffskärpningar mot gängvåld och vill slopa karensen för vissa yrkesgrupper; äldreomsorgssatsningen är dock villkorad av minskade migrationskostnader och därmed mindre konkret.",
+          sources: [
+            { title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "Vill att staten återtar ansvaret för skolan med ny finansieringsmodell och nationella riktlinjer: 'Genom att staten återfår ansvaret kan vi vända ojämlikheten som det kommunala ansvaret skapat.'",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill rikta resurser till kommunerna men kopplar finansieringen till minskade migrationskostnader — villkorad och mindre konkret inriktning.",
+              score: 50,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "Betonar straffskärpningar och verkställda straff samt fler poliser med effektiva verktyg för att pressa tillbaka gängvåldet.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Drev igenom det förstärkta högkostnadsskyddet (tiotandvården) tillsammans med regeringen och beskriver det som 'den största välfärdsreformen på 20 år' — konkret flaggskepp.",
+              score: 100,
+              sources: [{ title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Ganska bra förslag': vill slopa karensavdraget för vissa yrkesgrupper, såsom skol- och förskolepersonal.",
+              score: 75,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 60,
@@ -810,9 +939,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#DA291C",
       scores: {
         valbefinnande: {
-          score: 55,
-          motivation: "Generös välfärdsagenda och storskaliga klimatinvesteringar ger positiv riktning för folkhälsa och utbildning; hög skattebelastning och motstånd mot privata alternativ i välfärden riskerar att hämma tillväxt och produktivitet.",
-          sources: [{ title: "Vänsterpartiets politik", url: "https://www.vansterpartiet.se/var-politik/" }],
+          score: 85,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: mest expansiv på de konkreta välfärdsinstrument frågebanken mäter — vill avskaffa karensavdraget ('mycket bra'), bredda tandvårdsskyddet ('tänderna är en klassfråga'), kraftigt öka resurserna till skola och äldreomsorg samt bryta gängvåldet med både polis och sociala insatser.",
+          sources: [
+            { title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "Vill att skattepengar går 'till skolan, inte läggas i fickan på ägare till stora friskolekoncerner' och stärka skolans resurser för bättre resultat.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill kraftigt öka de kommunala resurserna för att anställa mer personal, förbättra villkoren och se till att pengarna går till omsorg snarare än vinst.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "Vill stoppa narkotika- och vapensmuggling, fler poliser, sociala insatsgrupper och avhopparprogram för att bryta gängvåldet.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Stödjer reformen men reserverar sig (res. 1 och 5) för ett bredare högkostnadsskydd — 'tänderna är en klassfråga' och tandvården bör likställas med övrig sjukvård.",
+              score: 100,
+              sources: [{ title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Mycket bra förslag': 'Karensavdraget leder till skadlig sjuknärvaro och drabbar framförallt människor med arbetaryrken.'",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 80,
@@ -1031,9 +1195,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#009933",
       scores: {
         valbefinnande: {
-          score: 63,
-          motivation: "Företagarvänlig politik med sänkta arbetsgivaravgifter, avregleringar och landsbygdssatsningar ger goda tillväxtförutsättningar och brett välstånd; generella välfärdsnivåer och socialt stöd är dock inte partiets primära fokus.",
-          sources: [{ title: "Centerpartiets politik", url: "https://www.centerpartiet.se/var-politik" }],
+          score: 60,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: programåtaganden för stärkt lärarroll, en hemtjänst med få och fasta kontakter, förebyggande och repressiva insatser mot gängvåld samt stöd för det breddade tandvårdsskyddet; karensavdraget försvaras dock som ett 'mycket dåligt' förslag att avskaffa.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "Vill stärka lärarnas ställning, ge fler speciallärare till elever som behöver mest stöd och säkra hög kvalitet i alla skolor.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill att 'max tio medarbetare ska besöka den äldres hem' under två veckor, med fasta omsorgskontakter och stärkt medicinsk närvaro.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "Vill kombinera tidiga förebyggande insatser, stärkta polisresurser och hemliga tvångsmedel med riktade straffskärpningar.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Stödjer det förstärkta högkostnadsskyddet men reserverar sig för att täppa till glappen för landsbygden — vill bredda reformen.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Mycket dåligt förslag': 'Den som är sjuk har rätt till sjuklön med undantag för en första dag' — vill behålla karensavdraget.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 75,
@@ -1252,9 +1451,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#000077",
       scores: {
         valbefinnande: {
-          score: 56,
-          motivation: "Familjepolitik, äldreomsorg och trygghetsagenda ger positiva välfärdseffekter för berörda grupper; bredare ekonomisk reformagenda och tillväxtfrämjande åtgärder är underbetonade i förhållande till partiets parlamentariska vikt.",
-          sources: [{ title: "Kristdemokraternas politik", url: "https://www.kristdemokraterna.se/var-politik/" }],
+          score: 60,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: statliga skolpengsnormer för en likvärdig skola, ett vård- och omsorgsprofilerat åtgärdspaket för äldreomsorgen, omfattande straffskärpningar mot gängvåld och stöd för det förstärkta tandvårdsskyddet; karensavdraget försvaras dock som ett 'mycket dåligt' förslag att avskaffa.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "Vill införa statligt fastställda skolpengsnormer som styr kommunerna mot en mer likvärdig skola och minskar 30–40 % skillnader i resurser.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill genomföra flera äldreomsorgsreformer: ökad medicinsk kompetens, bättre arbetsvillkor, mer anpassat boende och utbyggd primärvård.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "Kräver 'omfattande straffskärpningar', fler synliga poliser, förstärkt förebyggande arbete och föräldrastödsprogram i varje kommun.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Stödjer det förstärkta högkostnadsskyddet och betonar värdigheten i att föra tandvården närmare sjukvårdens principer.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Mycket dåligt förslag': 'Karensavdraget fyller en funktion som självrisk och minskar förekomsten av att arbetstagare stannar hemma.'",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 65,
@@ -1473,9 +1707,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#006AB3",
       scores: {
         valbefinnande: {
-          score: 60,
-          motivation: "Stark kunskapsskolasatsning och marknadsekonomisk inriktning bidrar positivt till humankapital och välstånd på sikt; partiets begränsade storlek och koalitionsberoende reducerar i praktiken den faktiska reformkapaciteten.",
-          sources: [{ title: "Liberalernas politik", url: "https://www.liberalerna.se/politik/" }],
+          score: 70,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: skolan är partiets flaggskepp (vill förstatliga den för likvärdig utbildning) och trygghetsagendan är konkret (10 000 fler poliser), liksom en hemtjänst med få fasta kontakter och stöd för det förstärkta tandvårdsskyddet; karensavdraget vill partiet snarare utöka, vilket ger 'mycket dåligt' på sjukförsäkringsfrågan.",
+          sources: [
+            { title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "'Liberalerna vill förstatliga skolan under nästa mandatperiod för att säkra en likvärdig utbildning' med staten som finansieringsansvarig — skolan är partiets flaggskeppsfråga.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill att 'varje hemtjänsttagare bör i snitt träffa högst åtta olika personer', fler undersköterskor och språkkrav samt stärkt anhörigstöd.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "Föreslår 'en långsiktig pakt mot gängen med 10 000 fler poliser' kombinerat med förebyggande insatser och utökade sociala ingripanderätter.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Regeringsparti bakom prop. 2025/26:27; stödjer det förstärkta högkostnadsskyddet för tandvård.",
+              score: 75,
+              sources: [{ title: "Riksdagen: betänkande 2025/26:SoU10 (Ett förstärkt högkostnadsskydd för tandvård)", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/ett-forstarkt-hogkostnadsskydd-for-tandvard_hd01sou10/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Mycket dåligt förslag': 'Det är rimligt att det finns en självrisk i sjukförsäkringen precis som i alla försäkringar' — vill snarare utöka karensen.",
+              score: 0,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 80,
@@ -1691,9 +1960,44 @@ export const dataset: Dataset = DatasetSchema.parse({
       color: "#83CF39",
       scores: {
         valbefinnande: {
-          score: 53,
-          motivation: "Kombination av klimatansvar och välfärdsambitioner ger positiva långsiktiga bidrag till välbefinnande; partiets strikta ekologiska ram kan begränsa ekonomisk aktivitet och välståndsskapande på kort till medellång sikt.",
-          sources: [{ title: "Miljöpartiets politik", url: "https://www.mp.se/politik" }],
+          score: 90,
+          motivation: "Beräknad ur fem likaviktade delkomponenter enligt protokoll v1.1: mest expansiv på de konkreta välfärdsinstrumenten — permanent statsbidrag på 40 miljarder till äldreomsorgen, vill avskaffa karensavdraget ('mycket bra') och bredda tandvårdsskyddet till hela befolkningen ('tänderna är en del av kroppen'), samt stärka skolan och förebygga gängvåld brett.",
+          sources: [
+            { title: "Riksdagen: motion 2025/26:3824 (MP) med anledning av prop. 2025/26:27", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/med-anledning-av-prop-20252627-ett-forstarkt_hd023824/" },
+            { title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" },
+          ],
+          components: [
+            {
+              componentId: "utbildning-skolresultat",
+              position: "Vill bryta skolsegregationen genom att avskaffa vinstjakten, införa ett rättvist skolval och lägga finansieringsansvaret på staten för en mer likvärdig skola.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Likvärdig utbildning", url: "https://www.svt.se/valfrageguiden/forslag/likvardig-utbildning" }],
+            },
+            {
+              componentId: "aldreomsorg",
+              position: "Vill ge kommunerna ett 'permanent statsbidrag på 40 miljarder' för att anställa mer personal och höja lönerna så att arbetet i äldreomsorgen blir mer attraktivt.",
+              score: 100,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: God äldreomsorg", url: "https://www.svt.se/valfrageguiden/forslag/god-aldreomsorg" }],
+            },
+            {
+              componentId: "trygghet-gangvald",
+              position: "Vill ha fler poliser och bättre utredningsverktyg men också stärkt tidigt stöd till familjer, bättre skola och minskad segregation för att förebygga gängvåld.",
+              score: 75,
+              sources: [{ title: "SVT:s valfrågeguiden 2022: Minska gängvåldet", url: "https://www.svt.se/valfrageguiden/forslag/minska-gangvaldet" }],
+            },
+            {
+              componentId: "tandvard-hogkostnadsskydd",
+              position: "Motion 2025/26:3824: vill utveckla högkostnadsskyddet 'med samma principer som övriga hälso- och sjukvården' för hela befolkningen och behålla avgiftsfri tandvård upp till 23 år — 'tänderna är en del av kroppen'.",
+              score: 100,
+              sources: [{ title: "Riksdagen: motion 2025/26:3824 (MP) med anledning av prop. 2025/26:27", url: "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/med-anledning-av-prop-20252627-ett-forstarkt_hd023824/" }],
+            },
+            {
+              componentId: "sjukforsakring-karens",
+              position: "'Mycket bra förslag': 'Karensdagen i sjukförsäkringen behöver slopas' eftersom den ger skadlig sjuknärvaro och förstärker ojämlikhet.",
+              score: 100,
+              sources: [{ title: "SVT:s valkompass 2022: Karensdagen ska avskaffas", url: "https://valkompass.svt.se/2022/riksdag/fraga/karensdagen-ska-avskaffas" }],
+            },
+          ],
         },
         lidande: {
           score: 75,
