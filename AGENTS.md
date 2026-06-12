@@ -13,7 +13,7 @@ Live: https://optiparty.vercel.app · Repo: github.com/jockemedw/optiparty
 ## Kommandon
 
 ```powershell
-npm test           # vitest, tests/ (26 tester)
+npm test           # vitest, tests/
 npm run validate   # zod-validering av datasetet med läsbara fel
 npm run build      # kör validate + test via prebuild, exporterar till out/
 npx serve out      # rök-testa den statiska exporten
@@ -23,7 +23,7 @@ npx serve out      # rök-testa den statiska exporten
 
 - `src/data/dataset.ts` — ENDA stället innehåll ändras (dimensioner, partipoäng, källor, genomförbarhet)
 - `src/lib/model/` — rena, testade funktioner: `types.ts` (zod-kontrakt), `calc.ts` (normalisering/ranking), `url.ts` (vikter ↔ query-params)
-- `src/components/VerdictBoard.tsx` äger allt UI-state; `WeightPanel`/`RankingList` är dumma
+- `src/components/VerdictBoard.tsx` äger allt UI-state; `WeightPanel`/`RankingList`/`CalculationSheet` är dumma
 - `src/app/` — `/` (domen), `/metodik` (alla poäng + källor), `/om`
 
 ## Styrning (viktigast)

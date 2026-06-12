@@ -26,6 +26,37 @@ export function finalScore(policy: number, feasibilityFactor: number, g: number)
   return policy * (1 - g + g * feasibilityFactor);
 }
 
+export interface DimensionContribution {
+  dimensionId: string;
+  weight: number;
+  score: number;
+  contribution: number;
+}
+
+export interface Breakdown {
+  contributions: DimensionContribution[];
+  policyScore: number;
+  feasibilityFactor: number;
+  multiplier: number;
+  finalScore: number;
+}
+
+export function explainParty(party: Party, normalized: Weights, g: number): Breakdown {
+  const contributions = Object.entries(normalized).map(([dimensionId, weight]) => {
+    const score = party.scores[dimensionId].score;
+    return { dimensionId, weight, score, contribution: weight * score };
+  });
+  const policy = policyScore(party.scores, normalized);
+  const f = party.feasibility.factor;
+  return {
+    contributions,
+    policyScore: policy,
+    feasibilityFactor: f,
+    multiplier: 1 - g + g * f,
+    finalScore: finalScore(policy, f, g),
+  };
+}
+
 export function rankParties(dataset: Dataset, rawWeights: Weights, g: number): RankedParty[] {
   const normalized = normalizeWeights(rawWeights);
   return dataset.parties
