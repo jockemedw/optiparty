@@ -44,5 +44,8 @@ npx serve out      # rök-testa den statiska exporten
 
 ## Arbetsflöde
 
+- **Synlig todo, alltid.** Flerstegsarbete drivs via task-listan (TaskCreate/TaskUpdate):
+  skapa tasks innan arbetet börjar, uppdatera status löpande — sessionerna är långa och
+  ägaren ska kunna se var arbetet står och vad som återstår.
 - Handover-rutin: `/handover` skriver `.claude/handovers/latest.md`, `/resume` läser den.
 - Deploy: `npx vercel --yes` (projektet är länkat). Produktion/domän avgörs av projektägaren.
