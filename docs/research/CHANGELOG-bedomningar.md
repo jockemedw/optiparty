@@ -5,6 +5,38 @@ varje ändring av en poäng eller faktor efter protokollets godkännande loggas
 här med datum, vad som ändrades, vilken regel i §0 som åberopas (a:
 protokolländring, b: ändrat källäge) och källa.
 
+## 2026-06-12
+
+- **Protokoll v1.1 godkänt av projektägaren** (delkomponenter per dimension:
+  kriterierna K1–K5, femgradiga frågeankare, neutral prior §D, likavikt §E,
+  maskinell konsistens §F, migrering §G). Se
+  `2026-06-12-protokoll-v11-delkomponenter.md`.
+
+- **Dimensionen Framtidsansvar migrerad till beräknade poäng** (regel a:
+  protokolländring v1.1). Poängen beräknas nu ur fem likaviktade
+  delkomponenter med källverifierade partipositioner; frågebank, polaritet,
+  uteslutna frågor och §D-flaggor dokumenteras i
+  `2026-06-12-framtid-fragebank.md`. De kurerade poängen ersätts:
+
+  | Parti | Tidigare (kurerad) | Ny (beräknad) |
+  |---|---|---|
+  | S | 58 | 80 |
+  | M | 55 | 60 |
+  | SD | 35 | 45 |
+  | V | 70 | 85 |
+  | C | 62 | 80 |
+  | KD | 57 | 55 |
+  | L | 60 | 65 |
+  | MP | 82 | 85 |
+
+  Källor: partiernas politiksidor (fetch-verifierade 2026-06-12), riksdagens
+  betänkande 2023/24:MJU5 (reduktionsplikten, samtliga partiers position via
+  reservationerna) samt SVT (SD:s anslutning till 2045-målet, 2023-11-14).
+  Per-frågekällor anges per delkomponent i `src/data/dataset.ts`.
+  Konsekvens för default-domen (likaviktat, g = 1): S 63,7 · M 55,1 ·
+  L 48,1 · MP 47,9 · KD 45,5 · C 43,8 · SD 30,4 · V 28,0 — L och MP byter
+  plats jämfört med tidigare; domen i toppen ändras inte.
+
 ## 2026-06-11
 
 - **Protokollet godkänt av projektägaren** (metodgranskning enligt §5:

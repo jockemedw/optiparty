@@ -1,8 +1,9 @@
 # Protokolländring v1.1 — delkomponenter per dimension
 
 **Datum:** 2026-06-12
-**Status:** UTKAST — kräver projektägarens godkännande (metodgranskning) innan
-någon poäng ändras. Tills dess gäller v1:s kurerade dimensionspoäng oförändrat.
+**Status:** Godkänd av projektägaren 2026-06-12 (metodgranskning av K1–K5,
+frågeankarna, neutralprior-regeln, likaviktsdefaulten och migreringsreglerna).
+Migrering sker dimension för dimension enligt §G; först ut är Framtidsansvar.
 **Ändrar:** §2 i `2026-06-11-bedomningsprotokoll.md` (skalankare för
 dimensionspoäng). Övriga paragrafer (omfångsregel, genomförbarhetsrubrik,
 ändringslogg, grundregel) berörs inte.
