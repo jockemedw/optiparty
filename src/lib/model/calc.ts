@@ -37,6 +37,24 @@ export function componentScore(components: ComponentLike[]): number {
   return components.reduce((sum, c) => sum + (c.weight / total) * c.score, 0);
 }
 
+export interface BankEntryLike {
+  id: string;
+  weight: number;
+}
+
+export interface PartyComponentLike {
+  componentId: string;
+  score: number;
+}
+
+/** Dimensionspoäng ur frågebank + partikomponenter: bankens vikter joinas
+ *  med partiets frågepoäng via componentId. Saknad komponent fångas av
+ *  zod-invarianten — här behandlas den som 0 för att aldrig dölja fel. */
+export function bankScore(bank: BankEntryLike[], components: PartyComponentLike[]): number {
+  const scoreById = new Map(components.map((c) => [c.componentId, c.score]));
+  return componentScore(bank.map((q) => ({ weight: q.weight, score: scoreById.get(q.id) ?? 0 })));
+}
+
 export interface DimensionContribution {
   dimensionId: string;
   weight: number;
