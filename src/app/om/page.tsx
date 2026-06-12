@@ -13,8 +13,9 @@ export default function Om() {
       <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-soft">
         <p>
           Optiparty är ett konst- och metodprojekt. Sajten förkunnar med största självsäkerhet
-          vilket svenskt riksdagsparti som är &quot;matematiskt optimalt&quot; — och menar det, så
-          långt en öppet redovisad modell någonsin kan mena något.
+          vilket av riksdagens partier som räknas fram till högst sammanvägd poäng — det bästa
+          tillgängliga alternativet, inte ett optimalt parti i någon absolut mening. Sajten menar
+          det, så långt en öppet redovisad modell någonsin kan mena något.
         </p>
         <p>
           Tvärsäkerheten är en del av verket. Bakom förseglingen på förstasidan finns poängen: det

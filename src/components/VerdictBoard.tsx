@@ -41,8 +41,9 @@ export default function VerdictBoard() {
           Utlåtande · bedömning per {dataset.assessmentDate}
         </p>
         <h1 className="rise rise-2 mt-8 max-w-xl text-2xl leading-snug font-light text-ink-soft italic sm:text-3xl">
-          Härmed kungörs, efter viktad sammanvägning av sex etiska dimensioner, att Sveriges
-          optimala parti är
+          Härmed kungörs att av riksdagens {dataset.parties.length} tillgängliga kandidater,
+          efter viktad sammanvägning av sex etiska dimensioner, den högsta framräknade poängen
+          tillfaller
         </h1>
         <p
           lang="sv"
@@ -61,6 +62,10 @@ export default function VerdictBoard() {
             {fmt(1 - state.g + state.g * winner.party.feasibility.factor, 2)}
           </span>
         </div>
+        <p className="rise rise-4 mt-3 text-sm font-light text-ink-faint italic">
+          Ett optimum bland befintliga alternativ — inte ett ideal. Det perfekta partiet ställer
+          inte upp i val.
+        </p>
         <span
           aria-hidden
           className="stamp-in absolute -top-6 right-0 hidden rotate-[-8deg] rounded border-[3px] border-stamp px-3 py-1.5 font-mono text-xs font-semibold tracking-[0.3em] text-stamp uppercase opacity-80 sm:block"

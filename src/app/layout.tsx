@@ -17,9 +17,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Optiparty — Sveriges optimala parti",
+  title: "Optiparty — bästa tillgängliga parti, framräknat",
   description:
-    "Ett konst- och metodprojekt som räknar fram Sveriges matematiskt optimala parti utifrån en öppet redovisad värdemodell.",
+    "Ett konst- och metodprojekt som ur en öppet redovisad värdemodell räknar fram vilket av riksdagens partier som får högst sammanvägd poäng — det bästa tillgängliga, inte det perfekta.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

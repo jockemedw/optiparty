@@ -1,19 +1,41 @@
 "use client";
 
+import { useState } from "react";
 import type { Breakdown } from "@/lib/model/calc";
-import type { Dimension } from "@/lib/model/types";
+import type { Dimension, Party, ScoreEntry } from "@/lib/model/types";
 import { fmt, pct } from "@/lib/format";
 
 interface Props {
   breakdown: Breakdown;
   dimensions: Dimension[];
+  party: Party;
   g: number;
   color: string;
 }
 
-/** Kalkylremsan: redovisar varje räknesteg från råpoäng till slutpoäng. */
-export default function CalculationSheet({ breakdown, dimensions, g, color }: Props) {
-  const names = new Map(dimensions.map((d) => [d.id, d.name]));
+function SourceLinks({ entry }: { entry: Pick<ScoreEntry, "sources"> }) {
+  return (
+    <p className="mt-2 font-mono text-[11px]">
+      {entry.sources.map((s) => (
+        <a
+          key={s.url}
+          href={s.url}
+          className="mr-4 text-ink-faint underline decoration-rule-strong underline-offset-2 hover:text-stamp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {s.title} ↗
+        </a>
+      ))}
+    </p>
+  );
+}
+
+/** Kalkylremsan: redovisar varje räknesteg från råpoäng till slutpoäng,
+ *  med utfällbart resonemang (motivering + källor) bakom varje siffra. */
+export default function CalculationSheet({ breakdown, dimensions, party, g, color }: Props) {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const dims = new Map(dimensions.map((d) => [d.id, d]));
   const maxContribution = Math.max(...breakdown.contributions.map((c) => c.contribution), 1);
 
   return (
@@ -33,24 +55,56 @@ export default function CalculationSheet({ breakdown, dimensions, g, color }: Pr
           </tr>
         </thead>
         <tbody>
-          {breakdown.contributions.map((c) => (
-            <tr key={c.dimensionId} className="border-b border-rule/60 tabular-nums">
-              <td className="py-1.5 pr-2">{names.get(c.dimensionId) ?? c.dimensionId}</td>
-              <td className="py-1.5 pr-2 text-right text-ink-soft">{pct(c.weight)}</td>
-              <td className="py-1.5 pr-2 text-right text-ink-soft">× {c.score}</td>
-              <td className="py-1.5 pr-2 text-right font-medium">= {fmt(c.contribution, 2)}</td>
-              <td className="hidden py-1.5 sm:table-cell" aria-hidden>
-                <div
-                  className="h-2"
-                  style={{
-                    width: `${(c.contribution / maxContribution) * 100}%`,
-                    backgroundColor: color,
-                    opacity: 0.85,
-                  }}
-                />
-              </td>
-            </tr>
-          ))}
+          {breakdown.contributions.map((c) => {
+            const dim = dims.get(c.dimensionId);
+            const entry = party.scores[c.dimensionId];
+            const isOpen = openId === c.dimensionId;
+            return (
+              <FragmentRow
+                key={c.dimensionId}
+                isOpen={isOpen}
+                onToggle={() => setOpenId(isOpen ? null : c.dimensionId)}
+                row={
+                  <>
+                    <td className="py-1.5 pr-2">
+                      <span className="underline decoration-rule-strong decoration-dotted underline-offset-4">
+                        {dim?.name ?? c.dimensionId}
+                      </span>
+                      <span aria-hidden className="ml-2 text-ink-faint">
+                        {isOpen ? "▾" : "▸"}
+                      </span>
+                    </td>
+                    <td className="py-1.5 pr-2 text-right text-ink-soft">{pct(c.weight)}</td>
+                    <td className="py-1.5 pr-2 text-right text-ink-soft">× {c.score}</td>
+                    <td className="py-1.5 pr-2 text-right font-medium">= {fmt(c.contribution, 2)}</td>
+                    <td className="hidden py-1.5 sm:table-cell" aria-hidden>
+                      <div
+                        className="h-2"
+                        style={{
+                          width: `${(c.contribution / maxContribution) * 100}%`,
+                          backgroundColor: color,
+                          opacity: 0.85,
+                        }}
+                      />
+                    </td>
+                  </>
+                }
+                detail={
+                  <div className="border-l-2 py-3 pl-4" style={{ borderColor: color }}>
+                    {dim && (
+                      <p className="text-[11px] text-ink-faint">
+                        MÄTER: <span className="normal-case">{dim.measures}</span>
+                      </p>
+                    )}
+                    <p className="mt-2 font-serif text-sm leading-relaxed text-ink-soft">
+                      {entry.motivation}
+                    </p>
+                    <SourceLinks entry={entry} />
+                  </div>
+                }
+              />
+            );
+          })}
           <tr className="tabular-nums">
             <td className="py-2 pr-2 font-medium">Politikpoäng</td>
             <td className="py-2 pr-2 text-right text-ink-faint" colSpan={2}>
@@ -68,10 +122,32 @@ export default function CalculationSheet({ breakdown, dimensions, g, color }: Pr
         Steg 2: slutpoäng = politikpoäng × (1 − g + g × f)
       </p>
       <div className="flex flex-col gap-1 tabular-nums">
-        <p className="text-ink-soft">
-          genomförbarhetsfaktor f = {fmt(breakdown.feasibilityFactor, 2)} · genomslag g ={" "}
-          {fmt(g, 2)}
-        </p>
+        <button
+          type="button"
+          aria-expanded={openId === "feasibility"}
+          onClick={() => setOpenId(openId === "feasibility" ? null : "feasibility")}
+          className="cursor-pointer text-left text-ink-soft hover:text-ink"
+        >
+          genomförbarhetsfaktor f ={" "}
+          <span className="underline decoration-rule-strong decoration-dotted underline-offset-4">
+            {fmt(breakdown.feasibilityFactor, 2)}
+          </span>{" "}
+          · genomslag g = {fmt(g, 2)}{" "}
+          <span aria-hidden className="text-ink-faint">
+            {openId === "feasibility" ? "▾" : "▸"}
+          </span>
+        </button>
+        {openId === "feasibility" && (
+          <div className="my-1 border-l-2 border-stamp py-3 pl-4">
+            <p className="text-[11px] text-ink-faint">
+              RUBRIK: raw = 0.45·E + 0.25·P + 0.30·T · faktor = 0.3 + 0.7·raw
+            </p>
+            <p className="mt-2 font-serif text-sm leading-relaxed text-ink-soft">
+              {party.feasibility.motivation}
+            </p>
+            <SourceLinks entry={party.feasibility} />
+          </div>
+        )}
         <p className="text-ink-soft">
           multiplikator = 1 − {fmt(g, 2)} + {fmt(g, 2)} × {fmt(breakdown.feasibilityFactor, 2)} ={" "}
           <span className="font-medium text-ink">{fmt(breakdown.multiplier, 2)}</span>
@@ -82,5 +158,44 @@ export default function CalculationSheet({ breakdown, dimensions, g, color }: Pr
         </p>
       </div>
     </div>
+  );
+}
+
+function FragmentRow({
+  row,
+  detail,
+  isOpen,
+  onToggle,
+}: {
+  row: React.ReactNode;
+  detail: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <>
+      <tr
+        className="cursor-pointer border-b border-rule/60 tabular-nums hover:bg-card"
+        onClick={onToggle}
+        role="button"
+        aria-expanded={isOpen}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onToggle();
+          }
+        }}
+      >
+        {row}
+      </tr>
+      {isOpen && (
+        <tr className="border-b border-rule/60">
+          <td colSpan={5} className="pb-1">
+            {detail}
+          </td>
+        </tr>
+      )}
+    </>
   );
 }

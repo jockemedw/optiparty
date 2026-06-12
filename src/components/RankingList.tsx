@@ -77,6 +77,7 @@ export default function RankingList({ ranked, dimensions, normalized, g }: Props
                   <CalculationSheet
                     breakdown={explainParty(r.party, normalized, g)}
                     dimensions={dimensions}
+                    party={r.party}
                     g={g}
                     color={color}
                   />
