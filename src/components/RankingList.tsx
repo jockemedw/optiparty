@@ -51,9 +51,11 @@ export default function RankingList({ ranked, dimensions, normalized, g }: Props
                   {r.party.abbreviation}
                 </span>
               </span>
-              <span className="hidden font-mono text-[11px] text-ink-faint tabular-nums sm:inline">
-                {fmt(r.policyScore)} × {fmt(1 - g + g * r.party.feasibility.factor, 2)} =
-              </span>
+              {g > 0 && (
+                <span className="hidden font-mono text-[11px] text-ink-faint tabular-nums sm:inline">
+                  {fmt(r.policyScore)} × {fmt(1 - g + g * r.party.feasibility.factor, 2)} =
+                </span>
+              )}
               <span className="font-mono text-lg font-semibold tabular-nums">
                 {fmt(r.finalScore)}
                 <span

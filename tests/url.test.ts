@@ -4,12 +4,12 @@ import { defaultState, stateToQuery, queryToState, DEFAULT_G, DEFAULT_RAW_WEIGHT
 const dims = ["a", "b", "c"];
 
 describe("defaultState", () => {
-  it("ger råvikt 50 per dimension och g=1", () => {
+  it("ger råvikt 50 per dimension och g=0 (genomförbarhet av som default)", () => {
     const s = defaultState(dims);
     expect(s.rawWeights).toEqual({ a: 50, b: 50, c: 50 });
-    expect(s.g).toBe(1);
+    expect(s.g).toBe(0);
     expect(DEFAULT_RAW_WEIGHT).toBe(50);
-    expect(DEFAULT_G).toBe(1);
+    expect(DEFAULT_G).toBe(0);
   });
 });
 
@@ -41,6 +41,6 @@ describe("queryToState fallbacks", () => {
   it("giltigt w utan g behåller default-g", () => {
     const s = queryToState(new URLSearchParams("w=10-20-30"), dims);
     expect(s.rawWeights).toEqual({ a: 10, b: 20, c: 30 });
-    expect(s.g).toBe(1);
+    expect(s.g).toBe(0);
   });
 });

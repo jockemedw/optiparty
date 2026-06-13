@@ -90,11 +90,13 @@ export default function Metodik() {
       <div className="mt-4 space-y-4 leading-relaxed text-ink-soft">
         <p>
           Vikterna normaliseras att summera till 1. Default är likaviktning (1/6 per dimension) —
-          en &quot;indifferensprior&quot; som inte tar ställning mellan teorierna — och fullt
-          genomförbarhetsgenomslag (g&nbsp;=&nbsp;1). Genomförbarheten är en multiplikator, inte
-          en dimension: den är ingen värdering utan en sannolikhet, och sannolikheter
-          multipliceras. Varje partirad på förstasidan kan vecklas ut till sin fullständiga
-          beräkning, steg för steg.
+          en &quot;indifferensprior&quot; som inte tar ställning mellan teorierna. Genomförbarheten
+          är däremot avstängd som default (g&nbsp;=&nbsp;0): grunddomen vilar på ren politikpoäng.
+          Genomförbarheten är en multiplikator, inte en dimension: den är ingen värdering utan en
+          sannolikhet, och sannolikheter multipliceras. Den är samtidigt modellens mest subjektiva
+          faktor och väljs därför in aktivt — slå på den och justera dess genomslag (g) direkt på
+          förstasidan. Varje partirad där kan vecklas ut till sin fullständiga beräkning, steg för
+          steg.
         </p>
       </div>
 

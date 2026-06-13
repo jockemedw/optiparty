@@ -3,7 +3,7 @@
 import type { Dimension } from "@/lib/model/types";
 import type { Weights } from "@/lib/model/calc";
 import type { WeightState } from "@/lib/model/url";
-import { fmt, pct } from "@/lib/format";
+import { pct } from "@/lib/format";
 
 interface Props {
   dimensions: Dimension[];
@@ -51,29 +51,6 @@ export default function WeightPanel({ dimensions, state, normalized, onChange, o
             />
           </label>
         ))}
-
-        <label className="mt-2 flex flex-col gap-1.5 border-t border-rule pt-5">
-          <span className="flex items-baseline justify-between gap-4">
-            <span
-              className="font-medium"
-              title="Hur mycket partiets förmåga att faktiskt genomföra sin politik ska påverka."
-            >
-              Genomförbarhetens genomslag <span className="font-mono text-xs text-ink-faint">(g)</span>
-            </span>
-            <span className="font-mono text-xs text-ink-soft tabular-nums">{fmt(state.g, 2)}</span>
-          </span>
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={Math.round(state.g * 100)}
-            style={{ "--fill": `${Math.round(state.g * 100)}%` } as React.CSSProperties}
-            onChange={(e) => onChange({ ...state, g: Number(e.target.value) / 100 })}
-          />
-          <span className="font-mono text-[11px] text-ink-faint">
-            g = 0: ren politikpoäng · g = 1: full multiplikation med genomförbarhetsfaktorn
-          </span>
-        </label>
       </div>
 
       <div className="mt-7 flex flex-wrap gap-3">

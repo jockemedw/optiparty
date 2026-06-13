@@ -1,7 +1,10 @@
 import type { Weights } from "./calc";
 
 export const DEFAULT_RAW_WEIGHT = 50;
-export const DEFAULT_G = 1;
+/** Genomförbarheten är av som default — slutpoäng = ren politikpoäng tills användaren slår på den. */
+export const DEFAULT_G = 0;
+/** Värdet g hoppar till när genomförbarheten aktiveras: full multiplikation enligt protokollets §3-rubrik. */
+export const ACTIVE_G = 1;
 
 export interface WeightState {
   rawWeights: Weights;

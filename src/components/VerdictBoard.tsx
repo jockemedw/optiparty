@@ -5,17 +5,19 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { dataset, dimensionIds } from "@/data/dataset";
 import { normalizeWeights, rankParties } from "@/lib/model/calc";
-import { defaultState, queryToState, stateToQuery, type WeightState } from "@/lib/model/url";
+import { ACTIVE_G, defaultState, queryToState, stateToQuery, type WeightState } from "@/lib/model/url";
 import { fmt } from "@/lib/format";
 import { displayColor } from "@/lib/color";
 import RankingList from "@/components/RankingList";
 import WeightPanel from "@/components/WeightPanel";
+import FeasibilityControl from "@/components/FeasibilityControl";
 
 export default function VerdictBoard() {
   const searchParams = useSearchParams();
   const initial = useMemo(() => queryToState(new URLSearchParams(searchParams.toString()), dimensionIds), [searchParams]);
   const [state, setState] = useState<WeightState>(initial);
   const [unlocked, setUnlocked] = useState(false);
+  const [feasibilityOn, setFeasibilityOn] = useState(initial.g > 0);
   const [shareLabel, setShareLabel] = useState("Kopiera länk till dina vikter");
 
   const normalized = useMemo(() => normalizeWeights(state.rawWeights), [state.rawWeights]);
@@ -57,10 +59,14 @@ export default function VerdictBoard() {
             SLUTPOÄNG <strong className="text-2xl font-semibold">{fmt(winner.finalScore)}</strong>
             <span className="text-ink-faint"> / 100</span>
           </span>
-          <span className="text-ink-soft">
-            = politikpoäng {fmt(winner.policyScore)} × genomförbarhet{" "}
-            {fmt(1 - state.g + state.g * winner.party.feasibility.factor, 2)}
-          </span>
+          {state.g > 0 ? (
+            <span className="text-ink-soft">
+              = politikpoäng {fmt(winner.policyScore)} × genomförbarhet{" "}
+              {fmt(1 - state.g + state.g * winner.party.feasibility.factor, 2)}
+            </span>
+          ) : (
+            <span className="text-ink-soft">= ren politikpoäng · genomförbarhet ej inräknad</span>
+          )}
         </div>
         <p className="rise rise-4 mt-3 text-sm font-light text-ink-faint italic">
           Ett optimum bland befintliga alternativ — inte ett ideal. Det perfekta partiet ställer
@@ -75,6 +81,22 @@ export default function VerdictBoard() {
       </section>
 
       <section className="rise rise-5 mt-12">
+        <FeasibilityControl
+          on={feasibilityOn}
+          g={state.g}
+          onActivate={() => {
+            setFeasibilityOn(true);
+            setState((s) => ({ ...s, g: ACTIVE_G }));
+          }}
+          onDeactivate={() => {
+            setFeasibilityOn(false);
+            setState((s) => ({ ...s, g: 0 }));
+          }}
+          onChangeG={(g) => setState((s) => ({ ...s, g }))}
+        />
+      </section>
+
+      <section className="rise rise-5 mt-6">
         {!unlocked ? (
           <button
             type="button"
@@ -94,7 +116,10 @@ export default function VerdictBoard() {
             state={state}
             normalized={normalized}
             onChange={setState}
-            onReset={() => setState(defaultState(dimensionIds))}
+            onReset={() => {
+              setState(defaultState(dimensionIds));
+              setFeasibilityOn(false);
+            }}
             onShare={share}
             shareLabel={shareLabel}
           />
